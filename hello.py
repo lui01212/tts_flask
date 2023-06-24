@@ -3,9 +3,14 @@ from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
 from pydub import AudioSegment
+import re
 
 import subprocess
 app = Flask(__name__)
+
+def remove_special_characters(text):
+    pattern = r'[^a-zA-Z0-9.,! ]'  # Matches any character that is not a letter, digit, period, comma, exclamation point, or space
+    return re.sub(pattern, '', text)
 
 # Endpoint to create wav from text
 @app.route('/create_wav_from_text', methods=["POST"])
@@ -16,7 +21,8 @@ def add_guide():
     step = ""
     text_cut = ""
     try:
-        text_cut_nomal = sent_tokenize(text) 
+        text_cut_nomal = sent_tokenize(text)
+        text_cut_nomal = list(map(remove_special_characters, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
         for i in range(len(text_cut)):
             cattexxt = cattexxt + step +  f'clip{i}.wav'
@@ -45,7 +51,7 @@ def add_guide():
         return "An error occurred while trying to fetch task status updates."
 
     return {
-        "url": request.host_url + "download",
+        "url": request.host_url + "download"
     }
 
 
