@@ -74,10 +74,11 @@ def hello_world():
                 [command_cat], shell=True)
 
         combined_sounds = AudioSegment.from_wav(f'clip0.wav')
+        
         for i in range(len(text_cut)):
-        if i > 0 :
-            sound = AudioSegment.from_wav(f'clip{i}.wav')
-            combined_sounds += sound
+            if i > 0 :
+                sound = AudioSegment.from_wav(f'clip{i}.wav')
+                combined_sounds += sound
 
         combined_sounds.export("clip.wav", format="wav")
 
