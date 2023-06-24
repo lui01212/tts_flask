@@ -1,10 +1,15 @@
 from flask import Flask
 from flask import send_file
+from underthesea import sent_tokenize
 import subprocess
 app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
+    command_tts = ""
+    cattexxt = ""
+    step = ""
+    text_cut = ""
     text = """
         Diệp Phàm và Bàng Bác lực áp Hàn Phi Vũ, làm cho mọi người chấn kinh trợn mắt há mồm, 2 thiếu niên chỉ có 11, 12 tuổi này khiến cho mọi người trở nên hồ đồ, rõ ràng là chưa tu luyện được Thần Lực Nguyên Tuyền, vậy mà lại đánh cho cháu của 1 vị trưởng lão ngất đi, suýt nữa thì bị phế, chính điều này đã làm cho mọi người cứng họng, chẳng biết nói gì nữa.
     
@@ -50,15 +55,26 @@ def hello_world():
         
         Hôm nay, mấy ngọn Sơn nhai đều phân phát Bách Thảo dịch, căn cứ theo tu vi cao thấp khác nhau, mà có số lượng Bách Thảo dịch khác nhau, mấy thanh niên này mỗi người được nhân 5 bình là không tồi rồi.
     """
-    command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text}" --output=clip.wav --silence-duration 0.2'
-
     try:
-        result_tts = subprocess.check_output(
-            [command_tts], shell=True)
+        text_cut = sent_tokenize(text) 
+        for i in range(len(text_cut)):
+            cattexxt = cattexxt + step +  f'clip{i}.wav'
+            step = " "
+
+        command_cat = f'cat {cattexxt} > clip.wav'
+
+        for i in range(len(text_cut)):
+            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
+            result_tts = subprocess.check_output(
+                        [command_tts], shell=True)
+            
+        result_cat = subprocess.check_output(
+                [command_cat], shell=True)
+
     except subprocess.CalledProcessError as e:
         return "An error occurred while trying to fetch task status updates."
 
-    return 'tts %s' % (result_tts)
+    return 'tts %s cat %s' % (result_tts, result_cat)
 
 
 @app.route('/download')
