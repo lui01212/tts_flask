@@ -45,7 +45,7 @@ def add_guide():
         return "An error occurred while trying to fetch task status updates."
 
     return {
-        "url": request.host_url + "clip.wav",
+        "url": request.host_url + "download",
     }
 
 
