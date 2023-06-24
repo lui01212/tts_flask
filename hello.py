@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import send_file
 import subprocess
 app = Flask(__name__)
 
@@ -20,3 +21,10 @@ def hello_world():
         return "An error occurred while trying to fetch task status updates."
 
     return 'tts %s' % (result_tts)
+
+
+@app.route('/download')
+def downloadFile ():
+    #For windows you need to use drive name [ex: F:/Example.pdf]
+    path = "./clip.wav"
+    return send_file(path, as_attachment=True)
