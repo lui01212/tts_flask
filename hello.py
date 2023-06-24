@@ -11,7 +11,7 @@ def hello_world():
     Tác phẩm kể lại cuộc đời, những thử thách và đau khổ của Thúy Kiều, một phụ nữ trẻ xinh đẹp và tài năng, phải hy sinh thân mình để cứu gia đình. 
     Để cứu cha và em trai khỏi tù, cô bán mình kết hôn với một người ssđàn ông trung niên, không biết rằng anh ta là một kẻ buôn người, và bị ép làm kĩ nữ trong lầu xanh.
     """
-    command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="(text)" --output=clip.wav --silence-duration 0.2'
+    command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text}" --output=clip.wav --silence-duration 0.2'
 
     try:
         result_tts = subprocess.check_output(
