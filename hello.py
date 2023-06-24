@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
