@@ -22,4 +22,4 @@ def hello_world():
     except subprocess.CalledProcessError as e:
         return "An error occurred while trying to fetch task status updates."
 
-    return 'cd %s, tts %s % (result_cd, result_tts)
+    return 'cd %s, tts %s' % (result_cd, result_tts)
