@@ -3,10 +3,20 @@ from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
 from pydub import AudioSegment
+from vietnam_number import n2w
 import re
 
 import subprocess
 app = Flask(__name__)
+
+def replace_numbers_with_letters(text):
+    
+    def replace(match):
+        number = match.group(0)
+        return n2w(number)
+    
+    return re.sub(r'\d+', replace, text)
+
 
 def remove_meaningless_characters(text):
     meaningless_chars = ['-', '_', '(', ')', '[', ']', '{', '}', '<', '>', '*', '/', '\\', '|', '@', '#', '$', '%', '^', '&', '=', '+', '~', '`', '"', "'", '\n', '\r', '\t']
@@ -27,6 +37,7 @@ def add_guide():
     try:
         text_cut_nomal = sent_tokenize(text)
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
+        text_cut_nomal = list(map(replace_numbers_with_letters, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
         for i in range(len(text_cut)):
             cattexxt = cattexxt + step +  f'clip{i}.wav'
