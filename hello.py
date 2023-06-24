@@ -1,6 +1,8 @@
 from flask import Flask
 from flask import send_file
 from underthesea import sent_tokenize
+from pydub import AudioSegment
+
 import subprocess
 app = Flask(__name__)
 
@@ -70,6 +72,14 @@ def hello_world():
             
         result_cat = subprocess.check_output(
                 [command_cat], shell=True)
+
+        combined_sounds = AudioSegment.from_wav(f'clip0.wav')
+        for i in range(len(text_cut)):
+        if i > 0 :
+            sound = AudioSegment.from_wav(f'clip{i}.wav')
+            combined_sounds += sound
+
+        combined_sounds.export("clip.wav", format="wav")
 
     except subprocess.CalledProcessError as e:
         return "An error occurred while trying to fetch task status updates."
