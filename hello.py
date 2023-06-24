@@ -11,7 +11,7 @@ def get_shell_script_output_using_communicate():
     return stdout.decode('utf-8')
 
 def get_shell_script_output_using_check_output():
-    stdout = check_output(['/home/buivanluyn/content2/vietTTS/scripts/quick_start.sh']).decode('utf-8')
+    stdout = check_output(['./quick_start.sh']).decode('utf-8')
     return stdout
 
 app = Flask(__name__)
