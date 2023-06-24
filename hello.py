@@ -12,7 +12,7 @@ def hello_world():
     Để cứu cha và em trai khỏi tù, cô bán mình kết hôn với một người đàn ông trung niên, không biết rằng anh ta là một kẻ buôn người, và bị ép làm kĩ nữ trong lầu xanh.
     """
     command_cd = "cd /home/buivanluyn/content2/vietTTS"
-    command_tts = "python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="(text)" --output=clip.wav --silence-duration 0.2"
+    command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="(text)" --output=clip.wav --silence-duration 0.2'
 
     try:
         result_cd = subprocess.check_output(
