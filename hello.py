@@ -3,6 +3,7 @@ from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
 from pydub import AudioSegment
+import threading
 from vietnam_number import n2w
 import re
 
@@ -26,6 +27,11 @@ def remove_meaningless_characters(text):
     
     return text
 
+def createWavFromText(command_tts):
+    result_tts = subprocess.check_output(
+                        [command_tts], shell=True)
+    return result_tts
+
 # Endpoint to create wav from text
 @app.route('/create_wav_from_text', methods=["POST"])
 def add_guide():
@@ -47,8 +53,13 @@ def add_guide():
 
         for i in range(len(text_cut)):
             command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
-            result_tts = subprocess.check_output(
-                        [command_tts], shell=True)
+            thread = threading.Thread(target=createWavFromText, args=(command_tts,))
+            thread.start()
+
+        # Wait for all the threads to finish
+        for thread in threading.enumerate():
+            if thread != threading.current_thread():
+                thread.join()
             
         result_cat = subprocess.check_output(
                 [command_cat], shell=True)
