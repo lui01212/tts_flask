@@ -4,10 +4,32 @@ from underthesea import sent_tokenize
 from underthesea import text_normalize
 from pydub import AudioSegment
 from vietnam_number import n2w
+from pyvi import ViTokenizer
+
 import re
 
 import subprocess
 app = Flask(__name__)
+
+
+def process_text(text):
+    # Phân tách từ trong văn bản tiếng Việt
+    tokens = ViTokenizer.tokenize(text)
+
+    # Xử lý các từ chứa "z", "j", "w" và "F" dựa trên ngữ cảnh
+    processed_tokens = []
+    for token in tokens.split():
+        if any(char in token for char in ['z', 'j', 'w', 'F']):
+            # Có ít nhất một chữ cái cần xử lý trong từ
+            # Tiến hành xử lý từ
+            token = token.replace('z', 'd').replace('j', 'gi').replace('w', 'qu').replace('F', 'Ph')
+        processed_tokens.append(token)
+
+    # Gộp các từ đã xử lý thành văn bản mới
+    processed_text = ' '.join(processed_tokens)
+
+    return processed_text
+
 
 def replace_numbers_with_letters(text):
     
@@ -38,6 +60,7 @@ def add_guide():
         text_cut_nomal = sent_tokenize(text)
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
         text_cut_nomal = list(map(replace_numbers_with_letters, text_cut_nomal))
+        text_cut_nomal = list(map(process_text, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
         for i in range(len(text_cut)):
             cattexxt = cattexxt + step +  f'clip{i}.wav'
