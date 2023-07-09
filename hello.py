@@ -76,6 +76,7 @@ def add_guide(text):
         AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
 
     except subprocess.CalledProcessError as e:
+        print(e)
         return None
 
     return True
@@ -270,6 +271,7 @@ def create_audio_all_chapter_by_book_id(id):
                     if x["status"] == '1':
                         continue
                     statusx = create_file_audio(x, folder_id)
+                    break
 
 def create_audio_all_book():
     # lấy tất cả sách
