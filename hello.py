@@ -282,11 +282,11 @@ def create_audio_all_book():
 @app.route('/create_audio_all_book', methods=["GET"])
 def get_data():
     try:
-    # Lấy giá trị của tham số id từ query string
-    id = request.args.get('id')
+        # Lấy giá trị của tham số id từ query string
+        id = request.args.get('id')
 
-    if id is not None:
-        create_audio_all_chapter_by_book_id(id)
+        if id is not None:
+            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
             print("a" + e)
     # Trả về kết quả dưới dạng JSON
