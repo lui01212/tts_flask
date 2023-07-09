@@ -234,7 +234,7 @@ def create_file_audio(chapter, folder_id):
         if chapter_content is not None:
             status_add_guide = add_guide(chapter_content["content"])
             if status_add_guide is not None :
-            status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
+                status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
             if status_upload_file_on_folder_id is not None :
                 post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "fileid": status_upload_file_on_folder_id})
                 if post_response is None :
