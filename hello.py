@@ -60,10 +60,10 @@ def add_guide(text):
         text_cut_nomal = list(map(process_text, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
 
-        #for i in range(len(text_cut)):
-        #    command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
-        #    result_tts = subprocess.check_output(
-        #                [command_tts], shell=True)
+        for i in range(len(text_cut)):
+            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
+            result_tts = subprocess.check_output(
+                        [command_tts], shell=True)
 
         combined_sounds = AudioSegment.from_wav(f'clip0.wav')
 
@@ -73,9 +73,8 @@ def add_guide(text):
                 combined_sounds += sound
 
         combined_sounds.export("clip.wav", format="wav")
-        print(1)
         AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
-        print(2)
+
     except Exception as e:
         print(e)
         return None
@@ -236,13 +235,12 @@ def create_file_audio(chapter, folder_id):
         chapter_content = get_request(f'https://audiotruyencv.org/api/leech/GetChapterContent?Id={chapter["id"]}')
         if chapter_content is not None:
             status_add_guide = add_guide(chapter_content["content"])
-            print(status_add_guide)
-            #if status_add_guide is not None :
-            #    status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
-            #if status_upload_file_on_folder_id is not None :
-                #post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "fileid": status_upload_file_on_folder_id})
-                #if post_response is None :
-                #    return False
+            if status_add_guide is not None :
+                status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
+            if status_upload_file_on_folder_id is not None :
+                post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "fileid": status_upload_file_on_folder_id})
+                if post_response is None :
+                    return False
             return True
         else:
             post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "2"})
