@@ -61,18 +61,19 @@ def add_guide(text):
         text_cut = list(map(text_normalize, text_cut_nomal))
 
         for i in range(len(text_cut)):
-            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.mp3 --silence-duration 0.2'
+            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
             result_tts = subprocess.check_output(
                         [command_tts], shell=True)
 
-        combined_sounds = AudioSegment.from_mp3(f'clip0.mp3')
+        combined_sounds = AudioSegment.from_wav(f'clip0.wav')
 
         for i in range(len(text_cut)):
             if i > 0 :
-                sound = AudioSegment.from_mp3(f'clip{i}.mp3')
+                sound = AudioSegment.from_wav(f'clip{i}.wav')
                 combined_sounds += sound
 
-        combined_sounds.export("clip.mp3", format="mp3")
+        combined_sounds.export("clip.wav", format="wav")
+        AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
 
     except subprocess.CalledProcessError as e:
         return None
