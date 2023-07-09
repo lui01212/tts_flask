@@ -20,10 +20,10 @@ def process_text(text):
     # Xử lý các từ chứa "z", "j", "w" và "F" dựa trên ngữ cảnh
     processed_tokens = []
     for token in tokens:
-        if any(char in token for char in ['z', 'j', 'w', 'F']):
+        if any(char in token for char in ['z', 'j', 'w', 'f', 'Z', 'J', 'W', 'F']):
             # Có ít nhất một chữ cái cần xử lý trong từ
             # Tiến hành xử lý từ
-            token = token.replace('z', 'd').replace('j', 'gi').replace('w', 'qu').replace('F', 'Ph')
+            token = token.replace('z', 'd').replace('j', 'gi').replace('w', 'qu').replace('f', 'ph').replace('Z', 'd').replace('J', 'gi').replace('W', 'qu').replace('F', 'ph')
         processed_tokens.append(token)
 
     # Gộp các từ đã xử lý thành văn bản mới
