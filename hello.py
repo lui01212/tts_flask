@@ -270,6 +270,7 @@ def create_audio_all_chapter_by_book_id(id):
                     if x["status"] == '1':
                         continue
                     statusx = create_file_audio(x, folder_id)
+                    break
 
 def create_audio_all_book():
     # lấy tất cả sách
