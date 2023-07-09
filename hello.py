@@ -61,18 +61,18 @@ def add_guide(text):
         text_cut = list(map(text_normalize, text_cut_nomal))
 
         for i in range(len(text_cut)):
-            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
+            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.mp3 --silence-duration 0.2'
             result_tts = subprocess.check_output(
                         [command_tts], shell=True)
 
-        combined_sounds = AudioSegment.from_wav(f'clip0.wav')
+        combined_sounds = AudioSegment.from_mp3(f'clip0.mp3')
 
         for i in range(len(text_cut)):
             if i > 0 :
-                sound = AudioSegment.from_wav(f'clip{i}.wav')
+                sound = AudioSegment.from_mp3(f'clip{i}.mp3')
                 combined_sounds += sound
 
-        combined_sounds.export("clip.wav", format="wav")
+        combined_sounds.export("clip.mp3", format="mp3")
 
     except subprocess.CalledProcessError as e:
         return None
@@ -145,12 +145,12 @@ def upload_file_on_folder_id(file_name ,folder_id):
 
         # Define the metadata of the file to be uploaded.
     metadata = {
-        'name': f'{file_name}.wav',
+        'name': f'{file_name}.mp3',
         'parents': [f'{folder_id}']  # Replace with the desired parent folder ID
     }
 
     # Define the path to the file on your local machine.
-    file_path = './clip.wav'
+    file_path = './clip.mp3'
 
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
@@ -277,7 +277,7 @@ def create_audio_all_book():
         for x in books:
             create_audio_all_chapter_by_book_id(x["id"])
 
-# Endpoint to create wav from text
+# Endpoint to create mp3 from text
 @app.route('/create_audio_all_book', methods=["GET"])
 def get_data():
     try:
@@ -300,5 +300,5 @@ def hello_world():
 @app.route('/download')
 def downloadFile ():
     #For windows you need to use drive name [ex: F:/Example.pdf]
-    path = "./clip.wav"
+    path = "./clip.mp3"
     return send_file(path, as_attachment=True)
