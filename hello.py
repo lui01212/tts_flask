@@ -231,6 +231,7 @@ def get_all_file_folder_id(folder_id):
         print('Failed to retrieve files.')
 
 def create_file_audio(chapter, folder_id):
+    print("start chapter")
     try:
         chapter_content = get_request(f'https://audiotruyencv.org/api/leech/GetChapterContent?Id={chapter["id"]}')
         if chapter_content is not None:
@@ -239,6 +240,7 @@ def create_file_audio(chapter, folder_id):
                 status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
             if status_upload_file_on_folder_id is not None :
                 post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "fileid": status_upload_file_on_folder_id})
+                print("end chapter")
                 if post_response is None :
                     return False
             return True
