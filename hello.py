@@ -244,7 +244,7 @@ def create_file_audio(chapter, folder_id):
             post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "2"})
             return None
     except Exception as e:
-            print(e)
+            #print(e)
             post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "2"})
             return None
 
@@ -281,12 +281,14 @@ def create_audio_all_book():
 # Endpoint to create wav from text
 @app.route('/create_audio_all_book', methods=["GET"])
 def get_data():
+    try:
     # Lấy giá trị của tham số id từ query string
     id = request.args.get('id')
 
     if id is not None:
         create_audio_all_chapter_by_book_id(id)
-    
+    except Exception as e:
+            print("a" + e)
     # Trả về kết quả dưới dạng JSON
     return "đã hoàn thành"
 
