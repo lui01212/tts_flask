@@ -76,7 +76,7 @@ def add_guide(text):
         print(1)
         AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
         print(2)
-    except subprocess.CalledProcessError as e:
+    except Exception as e:
         print(e)
         return None
 
