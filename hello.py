@@ -73,8 +73,9 @@ def add_guide(text):
                 combined_sounds += sound
 
         combined_sounds.export("clip.wav", format="wav")
+        print(1)
         AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
-
+        print(2)
     except subprocess.CalledProcessError as e:
         print(e)
         return None
