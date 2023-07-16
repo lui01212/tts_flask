@@ -341,8 +341,7 @@ def create_audio_all_chapter_by_book_id(id):
                         continue
                     statusx = create_file_audio(x, audio_folder_id, text_folder_id)
                     delete_all_file()
-                    time.sleep(30)  # Tạm dừng chương trình trong 30 giây.
-                    break
+                    time.sleep(60)  # Tạm dừng chương trình trong 30 giây.
 
 def create_audio_all_book():
     # lấy tất cả sách
