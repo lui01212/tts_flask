@@ -5,49 +5,40 @@ from underthesea import text_normalize
 from pydub import AudioSegment
 from vietnam_number import n2w
 from pyvi import ViTokenizer
+from gtts import gTTS
+import os
+import re
+import subprocess
+import time
 import requests
 import json
-import re
 
-import subprocess
 app = Flask(__name__)
 
 
-def process_text(text):
-    # Phân tách văn bản thành danh sách các từ
-    tokens = text.split()
-
-    # Xử lý các từ chứa "z", "j", "w" và "F" dựa trên ngữ cảnh
-    processed_tokens = []
-    for token in tokens:
-        if any(char in token for char in ['z', 'j', 'w', 'f', 'Z', 'J', 'W', 'F']):
-            # Có ít nhất một chữ cái cần xử lý trong từ
-            # Tiến hành xử lý từ
-            token = token.replace('z', 'd').replace('j', 'gi').replace('w', 'qu').replace('f', 'ph').replace('Z', 'd').replace('J', 'gi').replace('W', 'qu').replace('F', 'ph')
-        processed_tokens.append(token)
-
-    # Gộp các từ đã xử lý thành văn bản mới
-    processed_text = ' '.join(processed_tokens)
-
-    return processed_text
-
-
-def replace_numbers_with_letters(text):
-    
-    def replace(match):
-        number = match.group(0)
-        return n2w(number)
-    
-    return re.sub(r'\d+', replace, text)
+def change_speed(input_file, output_file, speed):
+    # Sử dụng ffmpeg để thay đổi tốc độ âm thanh của file WAV
+    cmd = f'ffmpeg -i {input_file} -filter:a "atempo={speed}" -vn {output_file}'
+    subprocess.call(cmd, shell=True)
 
 
 def remove_meaningless_characters(text):
     meaningless_chars = ['-', '_', '(', ')', '[', ']', '{', '}', '<', '>', '*', '/', '\\', '|', '@', '#', '$', '%', '^', '&', '=', '+', '~', '`', '"', "'", '\n', '\r', '\t']
-    
+
     for char in meaningless_chars:
         text = text.replace(char, '')
-    
+
     return text
+
+def text_to_speech(text, filename):
+    tts = gTTS(text=text, lang='vi')
+    tts.save(filename)
+
+def delete_all_file():
+    for file_name in os.listdir("./"):
+        if file_name.endswith((".wav", ".mp3",".txt")):
+            file_path = os.path.join("./", file_name)
+            os.remove(file_path)
 
 def add_guide(text):
     command_tts = ""
@@ -56,23 +47,22 @@ def add_guide(text):
     try:
         text_cut_nomal = sent_tokenize(text)
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
-        text_cut_nomal = list(map(replace_numbers_with_letters, text_cut_nomal))
-        text_cut_nomal = list(map(process_text, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
-
         for i in range(len(text_cut)):
-            command_tts = f'python3 -m vietTTS.synthesizer --lexicon-file assets/infore/lexicon.txt --text="{text_cut[i]}" --output=clip{i}.wav --silence-duration 0.2'
-            result_tts = subprocess.check_output(
-                        [command_tts], shell=True)
+            text_to_speech(text_cut[i], f'clip{i}.mp3')
+            AudioSegment.from_file(f'./clip{i}.mp3', format="mp3").export(f'./clip{i}.wav', format="wav")
+            time.sleep(5)  # Tạm dừng chương trình trong 5 giây.
 
         combined_sounds = AudioSegment.from_wav(f'clip0.wav')
-
         for i in range(len(text_cut)):
             if i > 0 :
                 sound = AudioSegment.from_wav(f'clip{i}.wav')
                 combined_sounds += sound
 
-        combined_sounds.export("clip.wav", format="wav")
+        combined_sounds.export("clipinput.wav", format="wav")
+
+        change_speed("clipinput.wav", "clip.wav", 1.45)
+
         AudioSegment.from_wav("clip.wav").export("clip.mp3", format="mp3")
 
     except Exception as e:
@@ -104,6 +94,36 @@ def post_request(url, data=None, json=None):
         print('Yêu cầu POST không thành công:', e)
         return None
 
+def create_child_folder_id(folder_name, folder_id):
+    # Replace 'YOUR_ACCESS_TOKEN' with the actual access token.
+    access_token = get_request('https://audiotruyencv.org/api/ggdrive/GetAccessToken')
+    access_token = access_token["token"]
+    # Define the API endpoint for creating a folder.
+    endpoint = 'https://www.googleapis.com/drive/v3/files'
+
+    # Define the headers for the API request.
+    headers = {
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json'
+    }
+
+    # Define the metadata for the folder.
+    folder_metadata = {
+        'name': f'{folder_name}',
+        'parents': [f'{folder_id}'],  # Replace with the desired parent folder ID
+        'mimeType': 'application/vnd.google-apps.folder'
+    }
+
+    # Send the POST request to create the folder.
+    response = requests.post(endpoint, headers=headers, json=folder_metadata)
+
+    if response.status_code == 200:
+        folder_data = response.json()
+        folder_id = folder_data['id']
+        return folder_id
+    else:
+        return None
+
 def create_folder_id(folder_name):
     # Replace 'YOUR_ACCESS_TOKEN' with the actual access token.
     access_token = get_request('https://audiotruyencv.org/api/ggdrive/GetAccessToken')
@@ -133,7 +153,7 @@ def create_folder_id(folder_name):
     else:
         return None
 
-def upload_file_on_folder_id(file_name ,folder_id):
+def upload_audio_on_folder_id(file_name ,folder_id):
     # Replace 'YOUR_ACCESS_TOKEN' with the actual access token.
     access_token = get_request('https://audiotruyencv.org/api/ggdrive/GetAccessToken')
     access_token = access_token["token"]
@@ -153,6 +173,45 @@ def upload_file_on_folder_id(file_name ,folder_id):
 
     # Define the path to the file on your local machine.
     file_path = './clip.mp3'
+
+    files = {
+        'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
+        'file': open(file_path, "rb")
+    }
+
+    # Send the POST request to upload the file.
+    response = requests.post(endpoint, headers=headers, files=files)
+
+    if response.status_code == 200:
+        uploaded_file_data = response.json()
+        file_id = uploaded_file_data['id']
+        return file_id
+    else:
+        return None
+
+def upload_text_on_folder_id(file_name ,folder_id, text):
+    # Replace 'YOUR_ACCESS_TOKEN' with the actual access token.
+    access_token = get_request('https://audiotruyencv.org/api/ggdrive/GetAccessToken')
+    access_token = access_token["token"]
+    # Define the API endpoint for file uploads.
+    endpoint = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
+
+    # Define the headers for the API request.
+    headers = {
+        'Authorization': f'Bearer {access_token}'
+    }
+
+        # Define the metadata of the file to be uploaded.
+    metadata = {
+        'name': f'{file_name}.txt',
+        'parents': [f'{folder_id}']  # Replace with the desired parent folder ID
+    }
+
+    with open('chapter.txt', 'w') as f:
+        f.write(text)
+
+    # Define the path to the file on your local machine.
+    file_path = './chapter.txt'
 
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
@@ -230,16 +289,17 @@ def get_all_file_folder_id(folder_id):
     else:
         print('Failed to retrieve files.')
 
-def create_file_audio(chapter, folder_id):
+def create_file_audio(chapter, audio_folder_id, text_folder_id):
     print("start chapter")
     try:
-        chapter_content = get_request(f'https://audiotruyencv.org/api/leech/GetChapterContent?Id={chapter["id"]}')
+        chapter_content = chapter["content"];
         if chapter_content is not None:
-            status_add_guide = add_guide(chapter_content["content"])
+            status_add_guide = add_guide(chapter["content"])
             if status_add_guide is not None :
-                status_upload_file_on_folder_id = upload_file_on_folder_id(chapter["id"], folder_id)
-            if status_upload_file_on_folder_id is not None :
-                post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "fileid": status_upload_file_on_folder_id})
+                status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["id"], audio_folder_id)
+                status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["id"], text_folder_id, chapter["content"])
+            if status_upload_audio_on_folder_id is not None and status_upload_text_on_folder_id is not None:
+                post_response = post_request('https://audiotruyencv.org/api/chapter/UpdateInfo', json={"id" : chapter["id"], "status" : "1", "audiofileid": status_upload_audio_on_folder_id, "textfileid": status_upload_text_on_folder_id})
                 print("end chapter")
                 if post_response is None :
                     return False
@@ -255,16 +315,23 @@ def create_file_audio(chapter, folder_id):
 def create_audio_all_chapter_by_book_id(id):
     # lấy sách
     folder_id = ""
+    audio_folder_id = ""
+    text_folder_id = ""
     book = get_request(f'https://audiotruyencv.org/api/book/GetBook?Id={id}')
     if book is not None:
         if book["folderid"] is None :
             folder_id = create_folder_id(book["id"])
             if folder_id is not None:
-                post_response = post_request('https://audiotruyencv.org/api/book/UpdateInfo', json={"id" : book["id"], "folderid" : folder_id})
-            if post_response is None :
-                return False
+                audio_folder_id = create_child_folder_id("audio", folder_id)
+                text_folder_id = create_child_folder_id("text", folder_id)
+                if audio_folder_id is not None and text_folder_id is not None:
+                  post_response = post_request('https://audiotruyencv.org/api/book/UpdateInfo', json={"id" : book["id"], "folderid" : folder_id, "textfolderid" : text_folder_id, "audiofolderid" : audio_folder_id})
+                  if post_response is None :
+                      return False
         else :
             folder_id = book["folderid"]
+            audio_folder_id = book["audioFolderId"]
+            text_folder_id = book["textFolderId"]
         if folder_id is not None :
             # lấy tất cả sách
             chapters = get_request(f'https://audiotruyencv.org/api/chapter/GetAllChapter?Id={book["id"]}')
@@ -272,7 +339,9 @@ def create_audio_all_chapter_by_book_id(id):
                 for x in chapters:
                     if x["status"] == '1':
                         continue
-                    statusx = create_file_audio(x, folder_id)
+                    statusx = create_file_audio(x, audio_folder_id, text_folder_id)
+                    delete_all_file()
+                    break
 
 def create_audio_all_book():
     # lấy tất cả sách
@@ -282,8 +351,8 @@ def create_audio_all_book():
             create_audio_all_chapter_by_book_id(x["id"])
 
 # Endpoint to create mp3 from text
-@app.route('/create_audio_all_book', methods=["GET"])
-def get_data():
+@app.route('/create_audio_book', methods=["GET"])
+def create_audio_book():
     try:
         # Lấy giá trị của tham số id từ query string
         id = request.args.get('id')
@@ -293,7 +362,17 @@ def get_data():
     except Exception as e:
             print("a" + e)
     # Trả về kết quả dưới dạng JSON
-    return "đã hoàn thành"
+    return "đã hoàn thành tất cả các chapter của book"
+
+# Endpoint to create mp3 from text
+@app.route('/create_audio_all_book', methods=["GET"])
+def create_audio_all_book():
+    try:
+       create_audio_all_book()
+    except Exception as e:
+            print("a" + e)
+    # Trả về kết quả dưới dạng JSON
+    return "đã hoàn thành tất cả các book"
 
 
 @app.route('/')
