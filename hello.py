@@ -292,7 +292,7 @@ def get_all_file_folder_id(folder_id):
 def create_file_audio(chapter, audio_folder_id, text_folder_id):
     print("start chapter")
     try:
-        chapter_content = chapter["content"];
+        chapter_content = chapter["content"]
         if chapter_content is not None:
             status_add_guide = add_guide(chapter["content"])
             if status_add_guide is not None :
