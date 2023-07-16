@@ -50,6 +50,7 @@ def add_guide(text):
         text_cut = list(map(text_normalize, text_cut_nomal))
         for i in range(len(text_cut)):
             text_to_speech(text_cut[i], f'clip{i}.mp3')
+            print(i)
             AudioSegment.from_file(f'./clip{i}.mp3', format="mp3").export(f'./clip{i}.wav', format="wav")
 
         combined_sounds = AudioSegment.from_wav(f'clip0.wav')
