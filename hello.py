@@ -51,7 +51,6 @@ def add_guide(text):
         for i in range(len(text_cut)):
             text_to_speech(text_cut[i], f'clip{i}.mp3')
             AudioSegment.from_file(f'./clip{i}.mp3', format="mp3").export(f'./clip{i}.wav', format="wav")
-            time.sleep(5)  # Tạm dừng chương trình trong 5 giây.
 
         combined_sounds = AudioSegment.from_wav(f'clip0.wav')
         for i in range(len(text_cut)):
@@ -341,6 +340,7 @@ def create_audio_all_chapter_by_book_id(id):
                         continue
                     statusx = create_file_audio(x, audio_folder_id, text_folder_id)
                     delete_all_file()
+                    time.sleep(30)  # Tạm dừng chương trình trong 30 giây.
                     break
 
 def create_audio_all_book():
