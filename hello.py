@@ -52,7 +52,7 @@ def add_guide(text):
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
         text_cut = remove_null_empty_and_trim(text_cut)
-        print(text_cut)
+        print(text_cut[37])
         for i in range(len(text_cut)):
             text_to_speech(text_cut[i], f'clip{i}.mp3')
             print(i)
