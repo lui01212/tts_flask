@@ -40,8 +40,11 @@ def delete_all_file():
             file_path = os.path.join("./", file_name)
             os.remove(file_path)
 
-def remove_null_empty_and_trim(input_list):
-    return [item.strip() for item in input_list if item is not None and item.strip() != '']
+def contains_valid_characters(text):
+    return any(char not in (',', '.') for char in text)
+
+def filter_elements_with_valid_characters(input_list):
+    return [item for item in input_list if contains_valid_characters(item.strip())]
 
 def add_guide(text):
     command_tts = ""
@@ -51,8 +54,7 @@ def add_guide(text):
         text_cut_nomal = sent_tokenize(text)
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
-        text_cut = remove_null_empty_and_trim(text_cut)
-        print(text_cut[37])
+        text_cut = filter_elements_with_valid_characters(text_cut)
         for i in range(len(text_cut)):
             text_to_speech(text_cut[i], f'clip{i}.mp3')
             print(i)
