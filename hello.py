@@ -55,10 +55,11 @@ def add_guide(text):
         text_cut_nomal = list(map(remove_meaningless_characters, text_cut_nomal))
         text_cut = list(map(text_normalize, text_cut_nomal))
         text_cut = filter_elements_with_valid_characters(text_cut)
+        print(text_cut[97])
+        return None
         for i in range(len(text_cut)):
             text_to_speech(text_cut[i], f'clip{i}.mp3')
             print(i)
-            print(text_cut[i])
             time.sleep(3)
             AudioSegment.from_file(f'./clip{i}.mp3', format="mp3").export(f'./clip{i}.wav', format="wav")
 
