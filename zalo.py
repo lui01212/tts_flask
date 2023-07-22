@@ -510,6 +510,7 @@ def create_audio_all_chapter_by_book_id(id):
                     except Exception as e:
                         print("a")
                     #time.sleep(10)  # Tạm dừng chương trình trong 30 giây.
+                    break
 
 def create_audio_all_book():
     # lấy tất cả sách
