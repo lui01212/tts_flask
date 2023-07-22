@@ -518,6 +518,20 @@ def create_audio_all_book():
 
 
 # Endpoint to create mp3 from text
+@app.route('/create_audio_book', methods=["GET"])
+def create_audio_book():
+    try:
+        # Lấy giá trị của tham số id từ query string
+        id = request.args.get('id')
+
+        if id is not None:
+            create_audio_all_chapter_by_book_id(id)
+    except Exception as e:
+            print("a" + e)
+    # Trả về kết quả dưới dạng JSON
+    return "đã hoàn thành tất cả các chapter của book"
+
+# Endpoint to create mp3 from text
 @app.route('/create_audio_all_book', methods=["GET"])
 def create_audio_all_book():
     try:
