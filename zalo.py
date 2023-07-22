@@ -147,7 +147,7 @@ def connect_audio(links):
         url = i
         des_fol = str(os.getcwd())+"/tmp_audio/"
         namefile = str(id)+".mp3"
-        command = 'ffmpeg  -i '+url+' -ab 128k ' + des_fol + namefile + ' -y'
+        command = 'ffmpeg  -i '+url+' -ab 64k ' + des_fol + namefile + ' -y'
         id = id + 1
         os.system(command)
         f.write("file '"+full+namefile+"'\n")
