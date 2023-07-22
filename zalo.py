@@ -181,19 +181,19 @@ def delete_all_file():
             os.remove(file_path)
     for file_name in os.listdir("./tmp_audio"):
       if file_name.endswith((".wav", ".mp3",".txt")):
-          file_path = os.path.join("./", file_name)
+          file_path = os.path.join("./tmp_audio/", file_name)
           os.remove(file_path)
     for file_name in os.listdir("./final_audio"):
       if file_name.endswith((".wav", ".mp3",".txt")):
-          file_path = os.path.join("./", file_name)
+          file_path = os.path.join("./final_audio/", file_name)
           os.remove(file_path)
 
 
 def add_guide(text):
     try:
-         # connect to VPN
-        #os.system("windscribe connect")
-        
+        # connect to VPN
+        os.system("windscribe connect")
+        time.sleep(20)
         path = str(os.getcwd()) + "/tmp_audio"
 
         if os.path.exists(path) == False:
@@ -213,12 +213,12 @@ def add_guide(text):
 
     except Exception as e:
         # disconnect VPN
-        #os.system("windscribe disconnect")
+        os.system("windscribe disconnect")
         print(e)
         return None
-    #finally:
+    finally:
         # disconnect VPN
-        #os.system("windscribe disconnect")
+        os.system("windscribe disconnect")
 
     return True
 
@@ -505,9 +505,11 @@ def create_audio_all_chapter_by_book_id(id):
                     if x["status"] == '1':
                         continue
                     statusx = create_file_audio(x, audio_folder_id, text_folder_id)
-                    delete_all_file()
+                    try:
+                        delete_all_file()
+                    except Exception as e:
+                        print("a")
                     #time.sleep(10)  # Tạm dừng chương trình trong 30 giây.
-                    break
 
 def create_audio_all_book():
     # lấy tất cả sách
