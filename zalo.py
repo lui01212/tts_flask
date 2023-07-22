@@ -1,9 +1,5 @@
 from underthesea import sent_tokenize
 from underthesea import text_normalize
-from pydub import AudioSegment
-from vietnam_number import n2w
-from pyvi import ViTokenizer
-from gtts import gTTS
 import os
 import re
 import subprocess
@@ -93,10 +89,7 @@ def data_processor(text):
 
     return sentence
 
-
 #-----------------------------------------------------------------------------------------
-
-
 
 
 def zalo_api(data):
@@ -193,6 +186,9 @@ def delete_all_file():
 
 def add_guide(text):
     try:
+         # connect to VPN
+        os.system("windscribe connect")
+        
         path = str(os.getcwd()) + "/tmp_audio"
 
         if os.path.exists(path) == False:
@@ -211,8 +207,13 @@ def add_guide(text):
         path = mer_audio(id)
 
     except Exception as e:
+        # disconnect VPN
+        os.system("windscribe disconnect")
         print(e)
         return None
+    finally:
+        # disconnect VPN
+        os.system("windscribe disconnect")
 
     return True
 
