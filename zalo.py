@@ -216,7 +216,7 @@ def add_guide(text):
         #os.system("windscribe disconnect")
         print(e)
         return None
-    finally:
+    #finally:
         # disconnect VPN
         #os.system("windscribe disconnect")
 
