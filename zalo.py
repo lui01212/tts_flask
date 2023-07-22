@@ -1,3 +1,5 @@
+from flask import Flask, request
+from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
 import os
@@ -15,6 +17,9 @@ import random
 
 import nltk
 nltk.download('punkt')
+
+app = Flask(__name__)
+
 #-----------------------------------------
 def split_text(payload):
     text = []
@@ -510,3 +515,26 @@ def create_audio_all_book():
     if books is not None:
         for x in books:
             create_audio_all_chapter_by_book_id(x["id"])
+
+
+# Endpoint to create mp3 from text
+@app.route('/create_audio_all_book', methods=["GET"])
+def create_audio_all_book():
+    try:
+       create_audio_all_book()
+    except Exception as e:
+            print("a" + e)
+    # Trả về kết quả dưới dạng JSON
+    return "đã hoàn thành tất cả các book"
+
+
+@app.route('/')
+def hello_world():
+    return 'hello_world!'
+
+
+@app.route('/download')
+def downloadFile ():
+    #For windows you need to use drive name [ex: F:/Example.pdf]
+    path = "./clip.mp3"
+    return send_file(path, as_attachment=True)
