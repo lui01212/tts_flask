@@ -206,7 +206,7 @@ def add_guide(text):
 
         lst = data_processor(text)
 
-        zalo_api(sentence)
+        zalo_api(lst)
         links = get_links()
         connect_audio(links)
         path = mer_audio(id)
