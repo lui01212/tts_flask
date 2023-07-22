@@ -192,7 +192,7 @@ def delete_all_file():
 def add_guide(text):
     try:
          # connect to VPN
-        os.system("windscribe connect")
+        #os.system("windscribe connect")
         
         path = str(os.getcwd()) + "/tmp_audio"
 
@@ -213,12 +213,12 @@ def add_guide(text):
 
     except Exception as e:
         # disconnect VPN
-        os.system("windscribe disconnect")
+        #os.system("windscribe disconnect")
         print(e)
         return None
     finally:
         # disconnect VPN
-        os.system("windscribe disconnect")
+        #os.system("windscribe disconnect")
 
     return True
 
