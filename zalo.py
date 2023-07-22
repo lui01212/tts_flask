@@ -8,7 +8,7 @@ import subprocess
 import time
 import requests
 import json
-
+from urllib.parse import quote
 # import required modules
 from time import sleep
 import random
