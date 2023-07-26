@@ -13,12 +13,6 @@ from urllib.parse import quote
 from time import sleep
 import random
 
-from OpenSSL import SSL
-context = SSL.Context(SSL.PROTOCOL_TLSv1_2)
-context.use_privatekey_file('server.key')
-context.use_certificate_file('server.crt')  
-
-
 import nltk
 nltk.download('punkt')
 
@@ -590,5 +584,5 @@ def create_audio_chapter():
 def hello_world():
     return 'hello_world!'
 
-if __name__ == '__main__':  
-     app.run(host='127.0.0.1', debug=True, ssl_context=context)
+if __name__ == "__main__":
+    app.run(ssl_context=("cert.pem", "key.pem"))
