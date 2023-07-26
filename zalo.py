@@ -17,6 +17,8 @@ import nltk
 nltk.download('punkt')
 
 idserver = ""
+jwt = ""
+refreshToken = ""
 
 app = Flask(__name__)
 
