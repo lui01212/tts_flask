@@ -538,7 +538,7 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
-def create_audio_book():
+def create_audio_all_chapter_by_book_id():
 
     AUTHORIZATION_HEADER = 'Authorization'
 
@@ -560,7 +560,7 @@ def create_audio_book():
     return "đã hoàn thành tất cả các chapter của book"
 
 @app.route('/create_audio_chapter', methods=["GET"])
-def create_audio_book():
+def create_audio_chapter():
     AUTHORIZATION_HEADER = 'Authorization'
     try:
         bookid = request.args.get('bookid')
