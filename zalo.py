@@ -564,8 +564,8 @@ def create_audio_chapter():
         app.config['idserver'] = request.args.get('idserver')
         app.config['jwt'] = request.args.get('authorization')
         app.config['refreshToken'] = request.args.get('refreshtoken')
-        print(app.config['jwt'])
-        print(app.config['refreshToken'])
+        print('jwt:' + app.config['jwt'])
+        print('refreshToken:' + app.config['refreshToken'])
         #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
         #    create_audio_chapter(bookid, chapterid)
     except Exception as e:
