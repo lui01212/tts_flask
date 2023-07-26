@@ -199,21 +199,17 @@ def add_guide(text):
 
     return "success"
 
-def post_request(url, data=None, json=None):
+def get_request(url, params=None, jwt=None):
     headers = {}
     if jwt:
-        headers['Authorization'] = f'Bearer {app.config["jwt"] }'
+        headers['Authorization'] = f'Bearer {jwt}'
     
     try:
-        response = requests.post(url, data=data, json=json, headers=headers)
+        response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
-        print(response.status_code)
-        try:
-            return response.json()
-        except ValueError as e:
-            print('Failed to get JSON:', e)
+        return response.json()
     except requests.exceptions.RequestException as e:
-        print('POST request failed:', e)
+        print('GET request failed:', e)
         return None
 
 def post_request(url, data=None, json=None):
