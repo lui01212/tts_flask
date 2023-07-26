@@ -539,9 +539,6 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
 def create_audio_all_chapter_by_book_id():
-
-    AUTHORIZATION_HEADER = 'Authorization'
-
     try:
         id = request.args.get('id')
         app.config['idserver'] = request.args.get('idserver')
@@ -557,13 +554,12 @@ def create_audio_all_chapter_by_book_id():
 
 @app.route('/create_audio_chapter', methods=["GET"])
 def create_audio_chapter():
-    AUTHORIZATION_HEADER = 'Authorization'
     try:
         bookid = request.args.get('bookid')
         chapterid = request.args.get('chapterid')
-        app.config['idserver'] = request.args.get('idserver')
-        app.config['jwt'] = request.args.get('authorization')
-        app.config['refreshToken'] = request.args.get('refreshtoken')
+        # app.config['idserver'] = request.args.get('idserver')
+        # app.config['jwt'] = request.args.get('authorization')
+        # app.config['refreshToken'] = request.args.get('refreshtoken')
         print('jwt:' + request.args.get('authorization'))
         print('refreshToken:' + request.args.get('refreshtoken'))
         #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
