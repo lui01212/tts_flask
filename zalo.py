@@ -199,18 +199,30 @@ def add_guide(text):
 
     return "success"
 
-def get_request(url, params=None):
+def post_request(url, data=None, json=None):
+    headers = {}
+    if jwt:
+        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+    
     try:
-        response = requests.get(url, params=params)
+        response = requests.post(url, data=data, json=json, headers=headers)
         response.raise_for_status()
-        return response.json()
+        print(response.status_code)
+        try:
+            return response.json()
+        except ValueError as e:
+            print('Failed to get JSON:', e)
     except requests.exceptions.RequestException as e:
-        print('GET request failed:', e)
+        print('POST request failed:', e)
         return None
 
 def post_request(url, data=None, json=None):
+    headers = {}
+    if jwt:
+        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+    
     try:
-        response = requests.post(url, data=data, json=json)
+        response = requests.post(url, data=data, json=json, headers=headers)
         response.raise_for_status()
         print(response.status_code)
         try:
@@ -222,8 +234,12 @@ def post_request(url, data=None, json=None):
         return None
 
 def put_request(url, data=None, json=None):
+    headers = {}
+    if jwt:
+        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+    
     try:
-        response = requests.put(url, data=data, json=json)
+        response = requests.put(url, data=data, json=json, headers=headers)
         response.raise_for_status()
         print(response.status_code)
         try:
@@ -469,6 +485,8 @@ def create_audio_chapter(bookid, chapterid):
     audio_folder_id = ""
     text_folder_id = ""
     book = get_request(f'https://audiotruyencv.org/api/book/{bookid}')
+    print(book)
+    return False
     if book is not None:
         
         if book["Folderid"] is None:
@@ -545,10 +563,10 @@ def create_audio_all_chapter_by_book_id():
         app.config['jwt'] = request.headers.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
 
-        #if id is not None and app.config['idserver'] is not None:
-        #    create_audio_all_chapter_by_book_id(id)
+        if id is not None and app.config['idserver'] is not None:
+           create_audio_all_chapter_by_book_id(id)
     except Exception as e:
-        print("a" + str(e))
+        print(e)
 
     return "đã hoàn thành tất cả các chapter của book"
 
@@ -560,10 +578,8 @@ def create_audio_chapter():
         app.config['idserver'] = request.args.get('idserver')
         app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
-        print('jwt:' + app.config['jwt'])
-        print('refreshToken:' + app.config['jwt'] )
-        #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
-        #    create_audio_chapter(bookid, chapterid)
+        if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
+           create_audio_chapter(bookid, chapterid)
     except Exception as e:
         print(e)
 
