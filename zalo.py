@@ -542,7 +542,7 @@ def create_audio_all_chapter_by_book_id():
     try:
         id = request.args.get('id')
         app.config['idserver'] = request.args.get('idserver')
-        app.config['jwt'] = request.headers.get('authorization')
+        app.config['jwt'] = request.headers.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
 
         #if id is not None and app.config['idserver'] is not None:
@@ -560,12 +560,12 @@ def create_audio_chapter():
         # app.config['idserver'] = request.args.get('idserver')
         # app.config['jwt'] = request.args.get('authorization')
         # app.config['refreshToken'] = request.args.get('refreshtoken')
-        print('jwt:' + request.args.get('authorization'))
+        print('jwt:' + request.args.get('jwt'))
         print('refreshToken:' + request.args.get('refreshtoken'))
         #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
         #    create_audio_chapter(bookid, chapterid)
     except Exception as e:
-        print("a" + str(e))
+        print(e)
 
     return "đã hoàn thành tất cả các chapter của book"
 
