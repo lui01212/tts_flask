@@ -16,11 +16,11 @@ import random
 import nltk
 nltk.download('punkt')
 
-idserver = ""
-jwt = ""
-refreshToken = ""
-
 app = Flask(__name__)
+
+app.config['idserver'] = ''
+app.config['jwt'] = ''
+app.config['refreshToken'] = ''
 
 #-----------------------------------------
 
@@ -430,7 +430,7 @@ def create_audio_all_chapter_by_book_id(id):
             if chapters is not None:
                 
                 for chapter in chapters:
-                    server = get_request(f'https://audiotruyencv.org/api/server/{idserver}')
+                    server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
                     if server is None:
                         return False    
                     elif server["Status"] == "stop":
@@ -493,7 +493,7 @@ def create_audio_chapter(bookid, chapterid):
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
-            server = get_request(f'https://audiotruyencv.org/api/server/{idserver}')
+            server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
             if server is None:
                 return False    
             elif server["Status"] == "stop":
@@ -523,7 +523,7 @@ def create_audio_chapter(bookid, chapterid):
 
 
 def log_server(Log, Status=None, Bookid=None, Chapterid=None):
-    server = get_request(f'https://audiotruyencv.org/api/server/{idserver}')
+    server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
     if Bookid is not None:
         server["Bookid"] = Bookid
     if Chapterid is not None:
@@ -544,18 +544,18 @@ def create_audio_all_chapter_by_book_id():
 
     try:
         id = request.args.get('id')
-        idserver = request.args.get('idserver')
+        app.config['idserver'] = request.args.get('idserver')
 
         if request.headers.get(AUTHORIZATION_HEADER):
-            jwt = request.headers.get(AUTHORIZATION_HEADER)
+            app.config['jwt'] = request.headers.get(AUTHORIZATION_HEADER)
 
         if 'refreshToken' in request.cookies:
-            refreshToken = request.cookies.get('refreshToken')
+            app.config['refreshToken'] = request.cookies.get('refreshToken')
 
-        #if id is not None and idserver is not None:
+        #if id is not None and app.config['idserver'] is not None:
         #    create_audio_all_chapter_by_book_id(id)
     except Exception as e:
-        print("a" + e)
+        print("a" + str(e))
 
     return "đã hoàn thành tất cả các chapter của book"
 
@@ -565,18 +565,18 @@ def create_audio_chapter():
     try:
         bookid = request.args.get('bookid')
         chapterid = request.args.get('chapterid')
-        idserver = request.args.get('idserver')
+        app.config['idserver'] = request.args.get('idserver')
         if request.headers.get(AUTHORIZATION_HEADER):
-            jwt = request.headers.get(AUTHORIZATION_HEADER)
+            app.config['jwt'] = request.headers.get(AUTHORIZATION_HEADER)
 
         if 'refreshToken' in request.cookies:
-            refreshToken = request.cookies.get('refreshToken')
-        print(jwt)
-        print(refreshToken)
-        #if bookid is not None and chapterid is not None and idserver is not None:
+            app.config['refreshToken'] = request.cookies.get('refreshToken')
+        print(app.config['jwt'])
+        print(app.config['refreshToken'])
+        #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
         #    create_audio_chapter(bookid, chapterid)
     except Exception as e:
-        print("a" + e)
+        print("a" + str(e))
 
     return "đã hoàn thành tất cả các chapter của book"
 
