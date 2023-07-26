@@ -584,5 +584,16 @@ def create_audio_chapter():
 def hello_world():
     return 'hello_world!'
 
-if __name__ == "__main__":
-    app.run(ssl_context=("cert.pem", "key.pem"))
+
+# $ export FLASK_APP="app.py"
+# $ export FLASK_ENV=development
+# $ export FLASK_RUN_CERT=adhoc
+
+# $ flask run
+#  * Serving Flask app "app.py" (lazy loading)
+#  * Environment: development
+#  * Debug mode: on
+#  * Running on https://127.0.0.1:5000/ (Press CTRL+C to quit)
+#  * Restarting with stat
+#  * Debugger is active!
+#  * Debugger PIN: 329-665-000
