@@ -571,7 +571,8 @@ def create_audio_book():
 
         if 'refreshToken' in request.cookies:
             refreshToken = request.cookies.get('refreshToken')
-
+        print(jwt)
+        print(refreshToken)
         #if bookid is not None and chapterid is not None and idserver is not None:
         #    create_audio_chapter(bookid, chapterid)
     except Exception as e:
