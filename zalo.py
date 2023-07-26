@@ -430,7 +430,7 @@ def create_audio_all_chapter_by_book_id(id):
             if chapters is not None:
                 
                 for chapter in chapters:
-                    server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
+                    server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
                     if server is None:
                         return False    
                     elif server["Status"] == "stop":
@@ -493,7 +493,7 @@ def create_audio_chapter(bookid, chapterid):
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
-            server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
+            server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
             if server is None:
                 return False    
             elif server["Status"] == "stop":
@@ -523,7 +523,7 @@ def create_audio_chapter(bookid, chapterid):
 
 
 def log_server(Log, Status=None, Bookid=None, Chapterid=None):
-    server = get_request(f'https://audiotruyencv.org/api/server/{app.config['idserver']}')
+    server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
     if Bookid is not None:
         server["Bookid"] = Bookid
     if Chapterid is not None:
