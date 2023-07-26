@@ -537,11 +537,21 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
 def create_audio_book():
+
+    AUTHORIZATION_HEADER = 'Authorization'
+
     try:
         id = request.args.get('id')
         idserver = request.args.get('idserver')
-        if id is not None and idserver is not None:
-            create_audio_all_chapter_by_book_id(id)
+
+        if request.headers.get(AUTHORIZATION_HEADER):
+            jwt = request.headers.get(AUTHORIZATION_HEADER)
+
+        if 'refreshToken' in request.cookies:
+            refreshToken = request.cookies.get('refreshToken')
+
+        #if id is not None and idserver is not None:
+        #    create_audio_all_chapter_by_book_id(id)
     except Exception as e:
         print("a" + e)
 
@@ -549,12 +559,19 @@ def create_audio_book():
 
 @app.route('/create_audio_chapter', methods=["GET"])
 def create_audio_book():
+    AUTHORIZATION_HEADER = 'Authorization'
     try:
         bookid = request.args.get('bookid')
         chapterid = request.args.get('chapterid')
         idserver = request.args.get('idserver')
-        if bookid is not None and chapterid is not None and idserver is not None:
-            create_audio_chapter(bookid, chapterid)
+        if request.headers.get(AUTHORIZATION_HEADER):
+            jwt = request.headers.get(AUTHORIZATION_HEADER)
+
+        if 'refreshToken' in request.cookies:
+            refreshToken = request.cookies.get('refreshToken')
+
+        #if bookid is not None and chapterid is not None and idserver is not None:
+        #    create_audio_chapter(bookid, chapterid)
     except Exception as e:
         print("a" + e)
 
