@@ -202,7 +202,7 @@ def add_guide(text):
 def post_request(url, data=None, json=None):
     headers = {}
     if jwt:
-        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+        headers['Authorization'] = f'Bearer {app.config["jwt"] }'
     
     try:
         response = requests.post(url, data=data, json=json, headers=headers)
@@ -219,7 +219,7 @@ def post_request(url, data=None, json=None):
 def post_request(url, data=None, json=None):
     headers = {}
     if jwt:
-        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+        headers['Authorization'] = f'Bearer {app.config["jwt"] }'
     
     try:
         response = requests.post(url, data=data, json=json, headers=headers)
@@ -236,7 +236,7 @@ def post_request(url, data=None, json=None):
 def put_request(url, data=None, json=None):
     headers = {}
     if jwt:
-        headers['Authorization'] = f'Bearer {app.config['jwt'] }'
+        headers['Authorization'] = f'Bearer {app.config["jwt"] }'
     
     try:
         response = requests.put(url, data=data, json=json, headers=headers)
