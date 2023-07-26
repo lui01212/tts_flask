@@ -566,12 +566,12 @@ def create_audio_chapter():
         bookid = request.args.get('bookid')
         chapterid = request.args.get('chapterid')
         app.config['idserver'] = request.args.get('idserver')
+        print("a" + request.headers.get(AUTHORIZATION_HEADER))
         if request.headers.get(AUTHORIZATION_HEADER):
             app.config['jwt'] = request.headers.get(AUTHORIZATION_HEADER)
 
         if 'refreshToken' in request.cookies:
             app.config['refreshToken'] = request.cookies.get('refreshToken')
-        print(app.config['jwt'])
         print(app.config['refreshToken'])
         #if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
         #    create_audio_chapter(bookid, chapterid)
