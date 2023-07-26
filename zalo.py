@@ -202,7 +202,7 @@ def add_guide(text):
 def get_request(url, params=None, jwt=None):
     headers = {}
     if jwt:
-        headers['Authorization'] = f'Bearer {jwt}'
+        headers['Authorization'] = f'Bearer {app.config["jwt"]}'
     
     try:
         response = requests.get(url, params=params, headers=headers)
