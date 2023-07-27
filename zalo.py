@@ -560,7 +560,7 @@ def refreshToken():
     app.config['refreshToken'] = refreshToken.RefreshToken
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
-def create_audio_all_chapter_by_book_id():
+def create_audio_all_chapter_by_book_id_api():
     try:
         id = request.args.get('id')
         app.config['idserver'] = request.args.get('idserver')
