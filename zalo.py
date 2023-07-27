@@ -444,6 +444,7 @@ def create_audio_all_chapter_by_book_id(id):
                 for chapter in chapters:
                     server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
                     if server is None:
+                        log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
                         return False    
                     elif server["Status"] == "stop":
                         log_server("Đã đóng server theo yêu cầu")
@@ -508,6 +509,7 @@ def create_audio_chapter_book(bookid, chapterid):
         if folder_id is not None:
             server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
             if server is None:
+                log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
                 return False    
             elif server["Status"] == "stop":
                 log_server("Đã đóng server theo yêu cầu")
