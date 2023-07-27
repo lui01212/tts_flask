@@ -217,7 +217,7 @@ def post_request(url, data=None, json=None):
     headers = {}
     if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"] }'
-        headers['refreshToken'] = app.config["jwt"]
+        headers['refreshToken'] = app.config["refreshToken"]
     try:
         response = requests.post(url, data=data, json=json, headers=headers)
         response.raise_for_status()
