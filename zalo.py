@@ -571,6 +571,7 @@ def create_audio_all_chapter_by_book_id_api():
            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
         print(e)
+        log_server("Không tìm thấy folder_id" + str(e), "error")
 
     return "đã hoàn thành tất cả các chapter của book"
 
