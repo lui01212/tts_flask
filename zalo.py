@@ -564,11 +564,9 @@ def create_audio_all_chapter_by_book_id_api():
     try:
         id = request.args.get('id')
         app.config['idserver'] = request.args.get('idserver')
-        app.config['jwt'] = request.headers.get('jwt')
+        app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
-        print(app.config['idserver'])
-        print(app.config['jwt'] )
-        print(app.config['refreshToken'])
+        
         if id is not None and app.config['idserver'] is not None:
            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
