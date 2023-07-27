@@ -443,7 +443,7 @@ def create_audio_all_chapter_by_book_id(id):
             if chapters is not None:
                 
                 for chapter in chapters:
-                    refreshToken()
+                    #refreshToken()
                     server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
                     if server is None:
                         log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
