@@ -177,7 +177,7 @@ def delete_all_file():
 
 def add_guide(text):
     try:
-        #os.system("windscribe connect")
+        os.system("windscribe connect")
         time.sleep(20)
         path = str(os.getcwd()) + "/tmp_audio/"
         if os.path.exists(path) == False:
@@ -192,11 +192,12 @@ def add_guide(text):
         links = get_links()
         connect_audio(links)
         path = mer_audio(id)
+
     except Exception as e:
+        os.system("windscribe disconnect")
         return str(e)
     finally:
-        pass
-        #os.system("windscribe disconnect")
+        os.system("windscribe disconnect")
 
     return "success"
 
