@@ -481,8 +481,7 @@ def create_audio_chapter_book(bookid, chapterid):
     audio_folder_id = ""
     text_folder_id = ""
     book = get_request(f'https://audiotruyencv.org/api/book/{bookid}')
-    print(book)
-    return False
+    
     if book is not None:
         
         if book["Folderid"] is None:
