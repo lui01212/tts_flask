@@ -201,7 +201,7 @@ def add_guide(text):
 
 def get_request(url, params=None, jwt=None):
     headers = {}
-    if jwt:
+    if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"]}'
     
     try:
@@ -214,7 +214,7 @@ def get_request(url, params=None, jwt=None):
 
 def post_request(url, data=None, json=None):
     headers = {}
-    if jwt:
+    if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"] }'
     
     try:
@@ -231,7 +231,7 @@ def post_request(url, data=None, json=None):
 
 def put_request(url, data=None, json=None):
     headers = {}
-    if jwt:
+    if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"] }'
     
     try:
@@ -575,7 +575,6 @@ def create_audio_chapter():
         app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
         if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
-           print(1)
            create_audio_chapter_book(bookid, chapterid)
     except Exception as e:
         print(e)
