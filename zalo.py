@@ -556,7 +556,6 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 
 def refreshToken():
     dataJwt = post_request(f'https://audiotruyencv.org/account/refresh-token')
-    print(dataJwt)
     app.config['jwt'] = dataJwt['JwtToken']
     refreshToken = get_request(f'https://audiotruyencv.org/account/refresh-token-cookie')
     app.config['refreshToken'] = refreshToken['RefreshToken']
