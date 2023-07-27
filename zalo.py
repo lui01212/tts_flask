@@ -566,12 +566,12 @@ def create_audio_all_chapter_by_book_id_api():
         app.config['idserver'] = request.args.get('idserver')
         app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
-        
+
         if id is not None and app.config['idserver'] is not None:
            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
         print(e)
-        log_server("Không tìm thấy folder_id" + e.message, "error")
+        log_server("Lỗi api create_audio_all_chapter_by_book_id" + str(e), "error")
 
     return "đã hoàn thành tất cả các chapter của book"
 
