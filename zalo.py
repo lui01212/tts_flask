@@ -557,9 +557,9 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 def refreshToken():
     dataJwt = post_request(f'https://audiotruyencv.org/account/refresh-token')
     print(dataJwt)
-    app.config['jwt'] = dataJwt.JwtToken
+    app.config['jwt'] = dataJwt['JwtToken']
     refreshToken = get_request(f'https://audiotruyencv.org/account/refresh-token-cookie')
-    app.config['refreshToken'] = refreshToken.RefreshToken
+    app.config['refreshToken'] = refreshToken['RefreshToken']
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
 def create_audio_all_chapter_by_book_id_api():
