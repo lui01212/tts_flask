@@ -177,7 +177,7 @@ def delete_all_file():
 
 def add_guide(text):
     try:
-        os.system("windscribe connect")
+        #os.system("windscribe connect")
         time.sleep(20)
         path = str(os.getcwd()) + "/tmp_audio/"
         if os.path.exists(path) == False:
@@ -195,7 +195,8 @@ def add_guide(text):
     except Exception as e:
         return str(e)
     finally:
-        os.system("windscribe disconnect")
+        pass
+        #os.system("windscribe disconnect")
 
     return "success"
 
@@ -203,7 +204,6 @@ def get_request(url, params=None, jwt=None):
     headers = {}
     if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"]}'
-    
     try:
         response = requests.get(url, params=params, headers=headers)
         response.raise_for_status()
@@ -216,7 +216,7 @@ def post_request(url, data=None, json=None):
     headers = {}
     if app.config['jwt']:
         headers['Authorization'] = f'Bearer {app.config["jwt"] }'
-    
+        headers['refreshToken'] = app.config["jwt"]
     try:
         response = requests.post(url, data=data, json=json, headers=headers)
         response.raise_for_status()
@@ -442,6 +442,7 @@ def create_audio_all_chapter_by_book_id(id):
             if chapters is not None:
                 
                 for chapter in chapters:
+                    refreshToken()
                     server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
                     if server is None:
                         log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
@@ -551,6 +552,11 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
         return False
     return True
 
+def refreshToken():
+    dataJwt = post_request(f'https://audiotruyencv.org/account/refresh-token')
+    app.config['jwt'] = dataJwt.JwtToken
+    refreshToken = get_request(f'https://audiotruyencv.org/account/refresh-token-cookie')
+    app.config['refreshToken'] = refreshToken.RefreshToken
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
 def create_audio_all_chapter_by_book_id():
