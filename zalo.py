@@ -459,7 +459,8 @@ def create_audio_all_chapter_by_book_id(id):
                     if chapter_data is not None:
                         if chapter_data["Status"] == '1':
                             continue
-                        statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
+                        #statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
+                        statusx = ""
                         if statusx != "success":
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                             return False
@@ -484,7 +485,7 @@ def create_audio_chapter_book(bookid, chapterid):
     audio_folder_id = ""
     text_folder_id = ""
     book = get_request(f'https://audiotruyencv.org/api/book/{bookid}')
-    return False
+
     if book is not None:
         
         if book["Folderid"] is None:
@@ -555,6 +556,7 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
 
 def refreshToken():
     dataJwt = post_request(f'https://audiotruyencv.org/account/refresh-token')
+    print(dataJwt)
     app.config['jwt'] = dataJwt.JwtToken
     refreshToken = get_request(f'https://audiotruyencv.org/account/refresh-token-cookie')
     app.config['refreshToken'] = refreshToken.RefreshToken
