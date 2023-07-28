@@ -525,7 +525,8 @@ def create_audio_chapter_book(bookid, chapterid):
                 if chapter_data["Status"] == '1':
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - chương đã được tạo audio trước" + statusx, "error", book["Id"], chapter_data["Id"])
                     return False
-                statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
+                #statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
+                statusx = ""
                 if statusx != "success":
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                 else:
