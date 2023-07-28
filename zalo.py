@@ -584,6 +584,7 @@ def create_audio_chapter():
         app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
         if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
+            print(1)
            create_audio_chapter_book(bookid, chapterid)
     except Exception as e:
         print(e)
@@ -607,3 +608,6 @@ def hello_world():
 #  * Restarting with stat
 #  * Debugger is active!
 #  * Debugger PIN: 329-665-000
+
+
+nohup flask run --host=0.0.0.0 &
