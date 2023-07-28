@@ -249,7 +249,7 @@ def put_request(url, data=None, json=None):
 
 def create_child_folder_id(folder_name, folder_id):
     access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
-    access_token = access_token["token"]
+    access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/drive/v3/files'
     headers = {
         'Authorization': f'Bearer {access_token}',
