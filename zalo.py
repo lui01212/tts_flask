@@ -608,6 +608,3 @@ def hello_world():
 #  * Restarting with stat
 #  * Debugger is active!
 #  * Debugger PIN: 329-665-000
-
-
-nohup flask run --host=0.0.0.0 &
