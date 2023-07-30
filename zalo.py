@@ -111,6 +111,7 @@ def zalo_api(data):
             cookie = k + '=' + v
 
         headers = {
+            "User-Agent" : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
             "content-type": "application/x-www-form-urlencoded; charset=utf-8",
             "origin": "https://zalo.ai",
             "referer": "https://zalo.ai/experiments/text-to-audio-converter",
