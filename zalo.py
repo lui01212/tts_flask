@@ -154,7 +154,7 @@ def connect_audio(links):
 def mer_audio(id):
     path_list = str(os.getcwd()) + "/list_name.txt"
     path = str(os.getcwd()) + "/final_audio/"
-    mp3_path = path + "clip.mp3"
+    mp3_path = path + f'{id}.mp3'
     command = 'ffmpeg -f concat -safe 0 -i ' + \
         path_list + ' -c copy '+mp3_path + ' -y'
     os.system(command)
@@ -176,7 +176,7 @@ def delete_all_file():
             os.remove(file_path)
 
 
-def add_guide(text):
+def add_guide(text, id):
     try:
         os.system("windscribe connect")
         time.sleep(20)
@@ -193,14 +193,12 @@ def add_guide(text):
         links = get_links()
         connect_audio(links)
         path = mer_audio(id)
-
+        
     except Exception as e:
         os.system("windscribe disconnect")
         return str(e)
     finally:
         os.system("windscribe disconnect")
-        
-    time.sleep(20)
 
     return "success"
 
@@ -302,7 +300,7 @@ def upload_audio_on_folder_id(file_name, folder_id):
         'name': f'{file_name}.mp3',
         'parents': [f'{folder_id}']
     }
-    file_path = "./final_audio/clip.mp3"
+    file_path = './final_audio/{file_name}.mp3'
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
         'file': open(file_path, "rb")
@@ -390,7 +388,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
     try:
         chapter_content = chapter["Content"]
         if chapter_content is not None:
-            status_add_guide = add_guide(chapter["Content"])
+            status_add_guide = add_guide(chapter["Content"], chapter["Id"])
             if status_add_guide == "success":
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
                 time.sleep(20)
@@ -536,6 +534,7 @@ def create_audio_chapter_book(bookid, chapterid):
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                 else:
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công ", "stop")
+                
                 delete_all_file()
             else:
                 log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
