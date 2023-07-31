@@ -162,15 +162,15 @@ def mer_audio(id):
     return mp3_path
 
 def delete_all_file():
-    for file_name in os.listdir("./"):
+    for file_name in os.listdir(str(os.getcwd()) + "./"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./", file_name)
             os.remove(file_path)
-    for file_name in os.listdir("./tmp_audio"):
+    for file_name in os.listdir(str(os.getcwd()) + "./tmp_audio"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./tmp_audio/", file_name)
             os.remove(file_path)
-    for file_name in os.listdir("./final_audio"):
+    for file_name in os.listdir(str(os.getcwd()) + "./final_audio"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./final_audio/", file_name)
             os.remove(file_path)
@@ -466,10 +466,8 @@ def create_audio_all_chapter_by_book_id(id):
                         statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
                         if statusx != "success":
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
-                            delete_all_file()
                             return False
                         else:
-                            time.sleep(20)
                             delete_all_file()
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
