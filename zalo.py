@@ -162,15 +162,15 @@ def mer_audio(id):
     return mp3_path
 
 def delete_all_file():
-    for file_name in os.listdir(str(os.getcwd()) + "./"):
+    for file_name in os.listdir("./"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./", file_name)
             os.remove(file_path)
-    for file_name in os.listdir(str(os.getcwd()) + "./tmp_audio"):
+    for file_name in os.listdir("./tmp_audio"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./tmp_audio/", file_name)
             os.remove(file_path)
-    for file_name in os.listdir(str(os.getcwd()) + "./final_audio"):
+    for file_name in os.listdir("./final_audio"):
         if file_name.endswith((".wav", ".mp3", ".txt")):
             file_path = os.path.join("./final_audio/", file_name)
             os.remove(file_path)
