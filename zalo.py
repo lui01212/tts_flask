@@ -466,6 +466,7 @@ def create_audio_all_chapter_by_book_id(id):
                         statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
                         if statusx != "success":
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
+                            delete_all_file()
                             return False
                         else:
                             delete_all_file()
@@ -534,8 +535,8 @@ def create_audio_chapter_book(bookid, chapterid):
                 if statusx != "success":
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                 else:
-                    delete_all_file()
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công ", "stop")
+                delete_all_file()
             else:
                 log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
         else: 
