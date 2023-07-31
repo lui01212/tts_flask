@@ -300,7 +300,7 @@ def upload_audio_on_folder_id(file_name, folder_id):
         'name': f'{file_name}.mp3',
         'parents': [f'{folder_id}']
     }
-    file_path = './final_audio/{file_name}.mp3'
+    file_path = f'./final_audio/{file_name}.mp3'
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
         'file': open(file_path, "rb")
@@ -401,7 +401,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
                     return "lỗi khi cập nhật Audiofileid và Textfileid ở Chapter"
             else:
                 return "lỗi khi tạo Audiofileid và Textfileid"
-                
+
             time.sleep(20)
 
             return "success"
