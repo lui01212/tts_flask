@@ -391,7 +391,6 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             status_add_guide = add_guide(chapter["Content"], chapter["Id"])
             if status_add_guide == "success":
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
-                time.sleep(20)
                 status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter["Content"])
             else:
                 return status_add_guide
@@ -402,6 +401,9 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
                     return "lỗi khi cập nhật Audiofileid và Textfileid ở Chapter"
             else:
                 return "lỗi khi tạo Audiofileid và Textfileid"
+                
+            time.sleep(20)
+
             return "success"
         else:
             post_response = put_request('https://audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
@@ -467,6 +469,7 @@ def create_audio_all_chapter_by_book_id(id):
                             delete_all_file()
                             return False
                         else:
+                            time.sleep(20)
                             delete_all_file()
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
