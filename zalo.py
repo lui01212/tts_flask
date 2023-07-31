@@ -199,6 +199,8 @@ def add_guide(text):
         return str(e)
     finally:
         os.system("windscribe disconnect")
+        
+    time.sleep(20)
 
     return "success"
 
@@ -391,6 +393,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             status_add_guide = add_guide(chapter["Content"])
             if status_add_guide == "success":
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
+                time.sleep(20)
                 status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter["Content"])
             else:
                 return status_add_guide
@@ -465,6 +468,7 @@ def create_audio_all_chapter_by_book_id(id):
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                             return False
                         else:
+                            delete_all_file()
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
                         log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
@@ -530,6 +534,7 @@ def create_audio_chapter_book(bookid, chapterid):
                 if statusx != "success":
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                 else:
+                    delete_all_file()
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công ", "stop")
             else:
                 log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
