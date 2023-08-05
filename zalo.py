@@ -124,6 +124,7 @@ def zalo_api(data):
         print(response.text)
         f.write(response.text + "\n")
 
+        time.sleep(1)
     f.close()
 
 
@@ -575,6 +576,7 @@ def create_audio_all_chapter_by_book_id_api():
         app.config['refreshToken'] = request.args.get('refreshtoken')
 
         if id is not None and app.config['idserver'] is not None:
+           delete_all_file()
            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
         print(e)
@@ -591,6 +593,7 @@ def create_audio_chapter():
         app.config['jwt'] = request.args.get('jwt')
         app.config['refreshToken'] = request.args.get('refreshtoken')
         if bookid is not None and chapterid is not None and app.config['idserver'] is not None:
+           delete_all_file()
            create_audio_chapter_book(bookid, chapterid)
     except Exception as e:
         print(e)
