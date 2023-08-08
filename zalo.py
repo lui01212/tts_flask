@@ -193,8 +193,9 @@ def add_guide(text, id):
         zalo_api(lst)
         links = get_links()
         connect_audio(links)
+        time.sleep(10)
         path = mer_audio(id)
-        
+        time.sleep(20)
     except Exception as e:
         os.system("windscribe disconnect")
         return str(e)
