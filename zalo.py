@@ -398,10 +398,14 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
     try:
         chapter_content = chapter["Content"]
         if chapter_content is not None:
-            status_add_guide = add_guide(chapter["Content"], chapter["Id"])
+
+            chapter_content = replace_source(chapter_content)
+
+            status_add_guide = add_guide(chapter_content, chapter["Id"])
+
             if status_add_guide == "success":
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
-                status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter["Content"])
+                status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter_content)
             else:
                 return status_add_guide
             if status_upload_audio_on_folder_id is not None and status_upload_text_on_folder_id is not None:
@@ -422,6 +426,8 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
         post_response = put_request('https://audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
         return str(e)
 
+def replace_source(text):
+    return text.replace("truyenfull.vn", "audiotruyencv.org")
 
 def create_audio_all_chapter_by_book_id(id):
     folder_id = ""
