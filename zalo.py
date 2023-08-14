@@ -149,12 +149,15 @@ def connect_audio(links):
         id = id + 1
         os.system(command)
         f.write("file '" + full + namefile + "'\n")
+        time.sleep(1)
     f.close()
     print("done")
 
 def mer_audio(id):
     path_list = str(os.getcwd()) + "/list_name.txt"
     path = str(os.getcwd()) + "/final_audio/"
+    command = 'cd ' + path + ' && rm -rf *'
+    os.system(command)
     mp3_path = path + f'{id}.mp3'
     command = 'ffmpeg -f concat -safe 0 -i ' + \
         path_list + ' -c copy '+mp3_path + ' -y'
@@ -176,11 +179,10 @@ def delete_all_file():
             file_path = os.path.join("./final_audio/", file_name)
             os.remove(file_path)
 
-
 def add_guide(text, id):
     try:
         os.system("windscribe connect")
-        time.sleep(20)
+        time.sleep(10)
         path = str(os.getcwd()) + "/tmp_audio/"
         if os.path.exists(path) == False:
             os.system("mkdir tmp_audio")
@@ -193,9 +195,8 @@ def add_guide(text, id):
         zalo_api(lst)
         links = get_links()
         connect_audio(links)
-        time.sleep(20)
         path = mer_audio(id)
-        time.sleep(60)
+        time.sleep(10)
     except Exception as e:
         os.system("windscribe disconnect")
         return str(e)
@@ -326,9 +327,16 @@ def upload_text_on_folder_id(file_name, folder_id, text):
         'name': f'{file_name}.txt',
         'parents': [f'{folder_id}']
     }
+
+    file_path = './chapter.txt'
+
+    try:
+        os.remove(file_path)
+    except OSError:
+        pass
+
     with open('chapter.txt', 'w') as f:
         f.write(text)
-    file_path = './chapter.txt'
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
         'file': open(file_path, "rb")
@@ -404,7 +412,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             else:
                 return "lỗi khi tạo Audiofileid và Textfileid"
 
-            time.sleep(20)
+            time.sleep(5)
 
             return "success"
         else:
@@ -470,7 +478,6 @@ def create_audio_all_chapter_by_book_id(id):
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
                             return False
                         else:
-                            delete_all_file()
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
                         log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
@@ -538,7 +545,6 @@ def create_audio_chapter_book(bookid, chapterid):
                 else:
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công ", "stop")
                 
-                delete_all_file()
             else:
                 log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
         else: 
