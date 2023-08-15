@@ -353,7 +353,9 @@ def upload_audio_on_folder_id(file_name, folder_id):
         'name': f'{file_name}.mp3',
         'parents': [f'{folder_id}']
     }
-    file_path = f'./final_audio/{file_name}.mp3'
+
+    file_path = os.path.join(os.getcwd(), f'final_audio/{file_name}.mp3')
+
     files = {
         'data': ('metadata', json.dumps(metadata), 'application/json; charset=UTF-8'),
         'file': open(file_path, "rb")
