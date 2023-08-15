@@ -12,7 +12,7 @@ from urllib.parse import quote
 # import required modules
 from time import sleep
 import random
-
+import subprocess
 import nltk
 nltk.download('punkt')
 
@@ -135,35 +135,85 @@ def get_links():
     return links
 
 def connect_audio(links):
-    id = 1
-    path = str(os.getcwd())
-    full = path + '/tmp_audio/'
-    command = 'cd ' + full + ' && rm -rf *'
-    os.system(command)
-    f = open('list_name.txt', 'w')
-    for i in links:
-        url = i
-        des_fol = str(os.getcwd()) + "/tmp_audio/"
-        namefile = str(id) + ".mp3"
-        command = 'ffmpeg  -i ' + url + ' -ab 64k ' + des_fol + namefile + ' -y'
-        id = id + 1
-        os.system(command)
-        f.write("file '" + full + namefile + "'\n")
-        time.sleep(1)
-    f.close()
-    print("done")
+    try:
+        id = 1
+        path = str(os.getcwd())
+        full = path + '/tmp_audio/'
+        command = ['rm', '-rf', full + '*']
+        subprocess.run(command)
+
+        f = open('list_name.txt', 'w')
+        for i in links:
+            url = i
+            des_fol = str(os.getcwd()) + "/tmp_audio/"
+            namefile = str(id) + ".mp3"
+            command = ['ffmpeg', '-i', url, '-ab', '64k', des_fol + namefile, '-y']
+            id = id + 1
+            subprocess.run(command)
+            f.write("file '" + full + namefile + "'\n")
+            time.sleep(1)
+        f.close()
+        print("Done processing audio files.")
+    except Exception as e:
+        error_message = f"Error processing audio: {str(e)}"
+        raise Exception(error_message)
+
+def join_videos(input_file_list, output_file):
+    # Xây dựng lệnh ffmpeg để join các tệp video
+    ffmpeg_cmd = [
+        'ffmpeg',
+        '-f', 'concat',
+        '-safe', '0',
+        '-i', input_file_list,
+        '-c', 'copy',
+        output_file,
+        '-y'  # Tùy chọn này tự động đồng ý ghi đè lên tệp đầu ra nếu tồn tại
+    ]
+
+    # Chạy lệnh ffmpeg
+    process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    
+    # Chờ cho quá trình hoàn thành và lấy thông tin kết quả
+    stdout, stderr = process.communicate()
+    
+    # Kiểm tra xem quá trình có thành công hay không
+    if process.returncode == 0:
+        print("Joining videos successful!")
+    else:
+        error_message = f"Error joining videos:\nSTDOUT: {stdout.decode('utf-8')}\nSTDERR: {stderr.decode('utf-8')}"
+        raise Exception(error_message)
 
 def mer_audio(id):
-    path_list = str(os.getcwd()) + "/list_name.txt"
-    path = str(os.getcwd()) + "/final_audio/"
-    command = 'cd ' + path + ' && rm -rf *'
-    os.system(command)
-    mp3_path = path + f'{id}.mp3'
-    command = 'ffmpeg -f concat -safe 0 -i ' + \
-        path_list + ' -c copy '+mp3_path + ' -y'
-    os.system(command)
-    mp3_path = mp3_path.replace(os.getcwd(), '.')
-    return mp3_path
+    try:
+        path_list = os.path.join(os.getcwd(), "list_name.txt")
+        path = os.path.join(os.getcwd(), "final_audio")
+
+        # Xóa toàn bộ tệp trong thư mục đích trước khi bắt đầu
+        command = ['rm', '-rf', path + '/*']
+        subprocess.run(command)
+
+        mp3_path = os.path.join(path, f'{id}.mp3')
+        
+        # Tạo lệnh ffmpeg để merge các tệp âm thanh
+        ffmpeg_cmd = [
+            'ffmpeg',
+            '-f', 'concat',
+            '-safe', '0',
+            '-i', path_list,
+            '-c', 'copy',
+            mp3_path,
+            '-y'
+        ]
+        
+        subprocess.run(ffmpeg_cmd)
+        
+        mp3_path = mp3_path.replace(os.getcwd(), '.')
+        return mp3_path
+    except Exception as e:
+        error_message = f"Error merging audio: {str(e)}"
+        raise Exception(error_message)
+
+
 
 def delete_all_file():
     for file_name in os.listdir("./"):
