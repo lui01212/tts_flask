@@ -194,25 +194,14 @@ def mer_audio(id):
 
         mp3_path = os.path.join(path, f'{id}.mp3')
         
-        # Tạo lệnh ffmpeg để merge các tệp âm thanh
-        ffmpeg_cmd = [
-            'ffmpeg',
-            '-f', 'concat',
-            '-safe', '0',
-            '-i', path_list,
-            '-c', 'copy',
-            mp3_path,
-            '-y'
-        ]
-        
-        subprocess.run(ffmpeg_cmd)
+        # Sử dụng hàm join_videos để ghép các tệp video
+        join_videos(path_list, mp3_path)
         
         mp3_path = mp3_path.replace(os.getcwd(), '.')
         return mp3_path
     except Exception as e:
         error_message = f"Error merging audio: {str(e)}"
         raise Exception(error_message)
-
 
 
 def delete_all_file():
