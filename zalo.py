@@ -505,7 +505,7 @@ def create_audio_all_chapter_by_book_id(id):
                         statusx = create_file_audio(chapter_data, audio_folder_id, text_folder_id)
                         if statusx != "success":
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Lỗi khi tạo file audio-" + statusx, "error", book["Id"], chapter_data["Id"])
-                            return False
+                            #return False
                         else:
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
