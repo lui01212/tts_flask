@@ -495,8 +495,9 @@ def create_audio_all_chapter_by_book_id(id):
                         log_server("Đã đóng server theo yêu cầu")
                         return False
                     elif server["Status"] == "error":  
-                        log_server("Server đang ở trạng thái error. Xin hãy kiểm tra hoặc chuyển sang start trước khi chạy")
-                        return False 
+                        time.sleep(60)
+                        # log_server("Server đang ở trạng thái error. Xin hãy kiểm tra hoặc chuyển sang start trước khi chạy")
+                        # return False 
                     
                     chapter_data = get_request(f'https://audiotruyencv.org/api/chapter/{chapter["Id"]}')
                     if chapter_data is not None:
