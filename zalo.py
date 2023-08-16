@@ -2,6 +2,7 @@ from flask import Flask, request
 from flask import send_file
 from underthesea import sent_tokenize
 from underthesea import text_normalize
+from pydub import AudioSegment
 import os
 import re
 import subprocess
@@ -134,15 +135,20 @@ def get_links():
         r'(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}.m3u8)', out)
     return links
 
+def delete_files_with_extensions(path):
+    for file_name in os.listdir(path):
+        if file_name.endswith((".wav", ".mp3", ".txt")):
+            file_path = os.path.join(path, file_name)
+            os.remove(file_path)
+
 def connect_audio(links):
     try:
-        id = 1
+        id = 0
         path = str(os.getcwd())
         full = path + '/tmp_audio/'
-        command = ['rm', '-rf', full + '*']
-        subprocess.run(command)
 
-        f = open('list_name.txt', 'w')
+        delete_files_with_extensions(full)
+
         for i in links:
             url = i
             des_fol = str(os.getcwd()) + "/tmp_audio/"
@@ -150,63 +156,29 @@ def connect_audio(links):
             command = ['ffmpeg', '-i', url, '-ab', '64k', des_fol + namefile, '-y']
             id = id + 1
             subprocess.run(command)
-            f.write("file '" + full + namefile + "'\n")
             time.sleep(1)
-        f.close()
         print("Done processing audio files.")
     except Exception as e:
         error_message = f"Error processing audio: {str(e)}"
         raise Exception(error_message)
 
-def join_videos(input_file_list, output_file):
-    # Xây dựng lệnh ffmpeg để join các tệp video
-    ffmpeg_cmd = [
-        'ffmpeg',
-        '-f', 'concat',
-        '-safe', '0',
-        '-i', input_file_list,
-        '-c', 'copy',
-        output_file,
-        '-y'  # Tùy chọn này tự động đồng ý ghi đè lên tệp đầu ra nếu tồn tại
-    ]
-
-    # Chạy lệnh ffmpeg
-    process = subprocess.Popen(ffmpeg_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    
-    # Chờ cho quá trình hoàn thành và lấy thông tin kết quả
-    stdout, stderr = process.communicate()
-    
-    # Kiểm tra xem quá trình có thành công hay không
-    if process.returncode == 0:
-        print("Joining videos successful!")
-    else:
-        error_message = f"Error joining videos:\nSTDOUT: {stdout.decode('utf-8')}\nSTDERR: {stderr.decode('utf-8')}"
-        raise Exception(error_message)
-
-def mer_audio(id):
+def mer_audio(id, links):
     try:
-        path_list = os.path.join(os.getcwd(), "list_name.txt")
-        path = os.path.join(os.getcwd(), "final_audio")
+        path_final_audio = os.path.join(os.getcwd(), "final_audio")
+        path_tmp_audio = os.path.join(os.getcwd(), "tmp_audio")
 
         # Xóa toàn bộ tệp trong thư mục đích trước khi bắt đầu
-        command = ['rm', '-rf', path + '/*']
-        subprocess.run(command)
+        delete_files_with_extensions(path_final_audio)
 
-        mp3_path = os.path.join(path, f'{id}.mp3')
-        
-        # Tạo lệnh ffmpeg để merge các tệp âm thanh
-        ffmpeg_cmd = [
-            'ffmpeg',
-            '-f', 'concat',
-            '-safe', '0',
-            '-i', path_list,
-            '-c', 'copy',
-            mp3_path,
-            '-y'
-        ]
-        
-        subprocess.run(ffmpeg_cmd)
-        
+        mp3_path = os.path.join(path_final_audio, f'{id}.mp3')
+        combined_sounds = AudioSegment.from_mp3(os.path.join(path_tmp_audio, f'0.mp3'))
+        for i in range(len(links)):
+            if i > 0 :
+                sound = AudioSegment.from_mp3(os.path.join(path_tmp_audio, f'{i}.mp3'))
+                combined_sounds += sound
+
+        combined_sounds.export(mp3_path, format="mp3")
+
         mp3_path = mp3_path.replace(os.getcwd(), '.')
         return mp3_path
     except Exception as e:
@@ -245,7 +217,7 @@ def add_guide(text, id):
         zalo_api(lst)
         links = get_links()
         connect_audio(links)
-        path = mer_audio(id)
+        path = mer_audio(id, links)
         time.sleep(10)
     except Exception as e:
         os.system("windscribe disconnect")
