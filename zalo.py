@@ -481,7 +481,7 @@ def create_audio_all_chapter_by_book_id(id):
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
-            chapters = get_request(f'https://audiotruyencv.org/api/book/{book["Id"]}/chapter-not-run')
+            chapters = get_request(f'https://audiotruyencv.org/api/chapter/{book["Id"]}/chapter-not-run')
            
             if chapters is not None:
                 
