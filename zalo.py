@@ -511,7 +511,7 @@ def create_audio_all_chapter_by_book_id(id):
                         else:
                             log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - Tạo file audio thành công", None, book["Id"], chapter_data["Id"])
                     else:
-                        log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter_data["Id"])
+                        log_server(book["Booknm"] + "-" + chapter["Name"] + " - không tìm thấy chapter", "error", book["Id"], chapter["Id"])
             else:
                 log_server("Không tìm thấy chapters chưa tạo audio", "error")
         else: 
