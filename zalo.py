@@ -8,6 +8,7 @@ import re
 import subprocess
 import time
 import requests
+import traceback
 import json
 from urllib.parse import quote
 # import required modules
@@ -616,8 +617,12 @@ def create_audio_all_chapter_by_book_id_api():
            delete_all_file()
            create_audio_all_chapter_by_book_id(id)
     except Exception as e:
-        print(e)
-        log_server("Lỗi api create_audio_all_chapter_by_book_id" + str(e), "error")
+        exception_info = {
+        "type": type(e).__name__,
+        "message": str(e),
+        "traceback": traceback.format_exc()
+        }
+        log_server("Lỗi api create_audio_all_chapter_by_book_id" + str(exception_info), "error")
 
     return "đã hoàn thành tất cả các chapter của book"
 
