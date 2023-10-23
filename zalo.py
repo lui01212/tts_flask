@@ -274,7 +274,7 @@ def put_request(url, data=None, json=None):
         return None
 
 def create_child_folder_id(folder_name, folder_id):
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/drive/v3/files'
     headers = {
@@ -295,7 +295,7 @@ def create_child_folder_id(folder_name, folder_id):
         return None
 
 def create_folder_id(folder_name):
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/drive/v3/files'
     headers = {
@@ -315,7 +315,7 @@ def create_folder_id(folder_name):
         return None
 
 def upload_audio_on_folder_id(file_name, folder_id):
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
     headers = {
@@ -341,7 +341,7 @@ def upload_audio_on_folder_id(file_name, folder_id):
         return None
 
 def upload_text_on_folder_id(file_name, folder_id, text):
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart'
     headers = {
@@ -374,7 +374,7 @@ def upload_text_on_folder_id(file_name, folder_id, text):
         return None
 
 def get_all_folder():
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/drive/v3/files'
     headers = {
@@ -394,7 +394,7 @@ def get_all_folder():
         print('Failed to list files.')
 
 def get_all_file_folder_id(folder_id):
-    access_token = get_request('https://audiotruyencv.org/api/ggdrive/get-access-token')
+    access_token = get_request('https://server.audiotruyencv.org/api/ggdrive/get-access-token')
     access_token = access_token["Token"]
     endpoint = 'https://www.googleapis.com/drive/v3/files'
     headers = {
@@ -433,7 +433,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             else:
                 return status_add_guide
             if status_upload_audio_on_folder_id is not None and status_upload_text_on_folder_id is not None:
-                post_response = put_request('https://audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "1", "Audiofileid": status_upload_audio_on_folder_id, "Textfileid": status_upload_text_on_folder_id})
+                post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "1", "Audiofileid": status_upload_audio_on_folder_id, "Textfileid": status_upload_text_on_folder_id})
                 print("end chapter")
                 if post_response is None:
                     return "lỗi khi cập nhật Audiofileid và Textfileid ở Chapter"
@@ -444,10 +444,10 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
 
             return "success"
         else:
-            post_response = put_request('https://audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
+            post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
             return "lỗi lấy nội dung chương None"
     except Exception as e:
-        post_response = put_request('https://audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
+        post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
         return str(e)
 
 def replace_source(text):
@@ -457,7 +457,7 @@ def create_audio_all_chapter_by_book_id(id):
     folder_id = ""
     audio_folder_id = ""
     text_folder_id = ""
-    book = get_request(f'https://audiotruyencv.org/api/book/{id}')
+    book = get_request(f'https://server.audiotruyencv.org/api/book/{id}')
     if book is not None:
         
         if book["Folderid"] is None:
@@ -466,7 +466,7 @@ def create_audio_all_chapter_by_book_id(id):
                 audio_folder_id = create_child_folder_id("audio", folder_id)
                 text_folder_id = create_child_folder_id("text", folder_id)
                 if audio_folder_id is not None and text_folder_id is not None:
-                    post_response = put_request('https://audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": folder_id, "Textfolderid": text_folder_id, "Audiofolderid": audio_folder_id})
+                    post_response = put_request('https://server.audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": folder_id, "Textfolderid": text_folder_id, "Audiofolderid": audio_folder_id})
                     if post_response is None:
                         log_server("Lỗi khi update Textfolderid và Audiofolderid lên Book", "error")
                         return False
@@ -482,13 +482,13 @@ def create_audio_all_chapter_by_book_id(id):
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
-            chapters = get_request(f'https://audiotruyencv.org/api/chapter/{book["Id"]}/chapter-not-run')
+            chapters = get_request(f'https://server.audiotruyencv.org/api/chapter/{book["Id"]}/chapter-not-run')
            
             if chapters is not None:
                 
                 for chapter in chapters:
                     #refreshToken()
-                    server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
+                    server = get_request(f'https://server.audiotruyencv.org/api/server/{app.config["idserver"]}')
                     if server is None:
                         log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
                         return False    
@@ -500,7 +500,7 @@ def create_audio_all_chapter_by_book_id(id):
                         # log_server("Server đang ở trạng thái error. Xin hãy kiểm tra hoặc chuyển sang start trước khi chạy")
                         # return False 
                     
-                    chapter_data = get_request(f'https://audiotruyencv.org/api/chapter/{chapter["Id"]}')
+                    chapter_data = get_request(f'https://server.audiotruyencv.org/api/chapter/{chapter["Id"]}')
                     if chapter_data is not None:
                         if chapter_data["Status"] == '1':
                             continue
@@ -528,7 +528,7 @@ def create_audio_chapter_book(bookid, chapterid):
     folder_id = ""
     audio_folder_id = ""
     text_folder_id = ""
-    book = get_request(f'https://audiotruyencv.org/api/book/{bookid}')
+    book = get_request(f'https://server.audiotruyencv.org/api/book/{bookid}')
 
     if book is not None:
         
@@ -538,7 +538,7 @@ def create_audio_chapter_book(bookid, chapterid):
                 audio_folder_id = create_child_folder_id("audio", folder_id)
                 text_folder_id = create_child_folder_id("text", folder_id)
                 if audio_folder_id is not None and text_folder_id is not None:
-                    post_response = put_request('https://audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": folder_id, "Textfolderid": text_folder_id, "Audiofolderid": audio_folder_id})
+                    post_response = put_request('https://server.audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": folder_id, "Textfolderid": text_folder_id, "Audiofolderid": audio_folder_id})
                     if post_response is None:
                         log_server("Lỗi khi update Textfolderid và Audiofolderid lên Book", "error")
                         return False
@@ -554,7 +554,7 @@ def create_audio_chapter_book(bookid, chapterid):
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
-            server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
+            server = get_request(f'https://server.audiotruyencv.org/api/server/{app.config["idserver"]}')
             if server is None:
                 log_server(f'Không tìm thấy server{app.config["idserver"]}', "error")
                 return False    
@@ -565,7 +565,7 @@ def create_audio_chapter_book(bookid, chapterid):
                 log_server("Server đang ở trạng thái error. Xin hãy kiểm tra hoặc chuyển sang start trước khi chạy")
                 return False   
             
-            chapter_data = get_request(f'https://audiotruyencv.org/api/chapter/{chapterid}')
+            chapter_data = get_request(f'https://server.audiotruyencv.org/api/chapter/{chapterid}')
             if chapter_data is not None:
                 if chapter_data["Status"] == '1':
                     log_server(book["Booknm"] + "-" + chapter_data["Name"] + " - chương đã được tạo audio trước" + statusx, "error", book["Id"], chapter_data["Id"])
@@ -586,7 +586,7 @@ def create_audio_chapter_book(bookid, chapterid):
 
 
 def log_server(Log, Status=None, Bookid=None, Chapterid=None):
-    server = get_request(f'https://audiotruyencv.org/api/server/{app.config["idserver"]}')
+    server = get_request(f'https://server.audiotruyencv.org/api/server/{app.config["idserver"]}')
     if Bookid is not None:
         server["Bookid"] = Bookid
     if Chapterid is not None:
@@ -594,15 +594,15 @@ def log_server(Log, Status=None, Bookid=None, Chapterid=None):
     if Status is not None:
         server["Status"] = Status
     server["Log"] = Log
-    put_response = put_request(f'https://audiotruyencv.org/api/server/{server["Id"]}', json=server)
+    put_response = put_request(f'https://server.audiotruyencv.org/api/server/{server["Id"]}', json=server)
     if put_response is None:
         return False
     return True
 
 def refreshToken():
-    dataJwt = post_request(f'https://audiotruyencv.org/account/refresh-token')
+    dataJwt = post_request(f'https://server.audiotruyencv.org/account/refresh-token')
     app.config['jwt'] = dataJwt['JwtToken']
-    refreshToken = get_request(f'https://audiotruyencv.org/account/refresh-token-cookie')
+    refreshToken = get_request(f'https://server.audiotruyencv.org/account/refresh-token-cookie')
     app.config['refreshToken'] = refreshToken['RefreshToken']
 
 @app.route('/create_audio_all_chapter_by_book_id', methods=["GET"])
