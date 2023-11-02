@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+
+
 def get_request(url, params=None, jwt=None):
     headers = {}
     try:
@@ -9,6 +11,7 @@ def get_request(url, params=None, jwt=None):
     except requests.exceptions.RequestException as e:
         print('GET request failed:', e)
         return None
+
 
 def post_request(url, data=None, json=None):
     headers = {}
@@ -24,6 +27,7 @@ def post_request(url, data=None, json=None):
         print('POST request failed:', e)
         return None
 
+
 def put_request(url, data=None, json=None):
     headers = {}
     try:
@@ -38,6 +42,7 @@ def put_request(url, data=None, json=None):
         print('PUT request failed:', e)
         return None
 
+
 def get_book_details(book_link):
     response = requests.get(book_link)
     soup = BeautifulSoup(response.content, "html.parser")
@@ -51,8 +56,10 @@ def get_book_details(book_link):
     author_name = a_info_tags[0].text.strip()
     genre = a_info_tags[1].text.strip()
 
-    summary_tags = [element.text.strip() for element in soup.find_all(class_="summary")]
-    full_summary = ' '.join(summary_tags)  # Gộp tất cả các đoạn tóm tắt thành một chuỗi
+    summary_tags = [element.text.strip()
+                    for element in soup.find_all(class_="summary")]
+    # Gộp tất cả các đoạn tóm tắt thành một chuỗi
+    full_summary = ' '.join(summary_tags)
 
     div_tab_tag = soup.find(id="divtab")
     first_chapter_tag = div_tab_tag.find_all('a')[0]
@@ -66,13 +73,16 @@ def get_book_details(book_link):
         'first_chapter_link': first_chapter_link
     }
 
+
 def get_next_chapter_link(chapter_link):
     response = requests.get(chapter_link)
     soup = BeautifulSoup(response.content, "html.parser")
     next_chapter_tag = soup.find(id="nextchap")
-    next_chapter_link = next_chapter_tag.get('href') if next_chapter_tag else None
+    next_chapter_link = next_chapter_tag.get(
+        'href') if next_chapter_tag else None
 
     return next_chapter_link
+
 
 def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
     list_chapter = []
@@ -92,7 +102,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                 for tag in content_tag.find_all(['a', 'div']):
                     if tag.name == 'a' or tag.name == 'div':
                         if 'c-c' not in tag.get('class', []):
-                            tag.extract()   
+                            tag.extract()
 
             full_text = "\n\n\n".join(content_tag.stripped_strings)
 
@@ -101,7 +111,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
             if not chapter_content:
                 empty_content_count += 1
                 if empty_content_count == 5:
-                    
+
                     return list_chapter
             else:
                 new_chapter = {
@@ -114,7 +124,8 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                 }
 
                 # Kiểm tra xem chapter đã tồn tại trong list_chapter hay chưa
-                exists = any(item["Name"] == new_chapter["Name"] and item["Content"] == new_chapter["Content"] for item in list_chapter)
+                exists = any(item["Name"] == new_chapter["Name"] and item["Content"]
+                             == new_chapter["Content"] for item in list_chapter)
 
                 if not exists:
                     print(chapter_link)
@@ -126,13 +137,13 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                         return list_chapter
 
                 next_chapter_tag = soup.find(id="nextchap")
-                next_chapter_link = next_chapter_tag.get('href') if next_chapter_tag else None
+                next_chapter_link = next_chapter_tag.get(
+                    'href') if next_chapter_tag else None
 
                 if not next_chapter_link:
                     return list_chapter
 
                 chapter_link = next_chapter_link
-                
 
     return list_chapter
 
@@ -140,36 +151,50 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
 def create_authors(name):
     for author in Authors:
         if author["Name"] == name:
-           return author["Id"]
-    put_response = put_request(f'https://leech.audiotruyencv.org/api/authors', json={"Id" : "", "Name" : name, "Created" : "2023-11-01T02:18:08.419Z", "Biography" : "" , "Updated" : "2023-11-01T02:18:08.419Z"})
+            return author["Id"]
+    put_response = put_request(f'https://leech.audiotruyencv.org/api/authors', json={
+                               "Id": "", "Name": name, "Created": "2023-11-01T02:18:08.419Z", "Biography": "", "Updated": "2023-11-01T02:18:08.419Z"})
     if put_response is None:
-       return False
+        return False
     return put_response
+
 
 def create_genres(name):
     for genre in Genres:
         if genre["Name"] == name:
-           return [genre]
+            return [genre]
     return []
+
+
+def process_chapters(Bookid, Seq, initial_link):
+    next_chapter_link = get_next_chapter_link(initial_link)
+    if next_chapter_link != None:
+        list_chapter_ = get_chapter_details(
+            Bookid, next_chapter_link, Seq + 1, 100)
+        while len(list_chapter_) > 0:
+            chapter_put_request = put_request(
+                f'https://leech.audiotruyencv.org/api/leech/insert-chapter-by-bookid/{Bookid}', json=list_chapter_)
+            list_chapter_ = []
+            if chapter_put_request != False and chapter_put_request:
+                next_chapter_link = get_next_chapter_link(
+                    chapter_put_request["Url"])
+                if next_chapter_link != None:
+                    list_chapter_ = get_chapter_details(
+                        Bookid, next_chapter_link, chapter_put_request["Seq"] + 1, 100)
+
 
 Genres = get_request(f'https://leech.audiotruyencv.org/api/genres')
 Authors = get_request(f'https://leech.audiotruyencv.org/api/authors')
 # Gọi hàm và truyền đường dẫn sách cần kiểm tra
-book_link = "https://truyenconvert.net/truyen/bat-quy-hai-muoi-nam-ta-tien-nhap-kinh-di-tro-choi-33628"
+book_link = "https://truyenconvert.net/truyen/ta-vo-dich-theo-bai-gia-bat-dau-33570"
 book_details = get_book_details(book_link)
-ListChapters = get_chapter_details("", book_details["first_chapter_link"], 1, 100)
-Book = {"Booknm" : book_details["Booknm"], "AuthorsId" : create_authors(book_details["author_name"]),"Status" : "0", "Description" :  book_details["summary"], "ListGenres" : create_genres(book_details["genre"]),"ListChapters" : ListChapters}
-book_post_request = post_request(f'https://leech.audiotruyencv.org/api/leech/insert-book',json=Book)
+ListChapters = get_chapter_details(
+    "", book_details["first_chapter_link"], 1, 100)
+Book = {"Booknm": book_details["Booknm"], "AuthorsId": create_authors(
+    book_details["author_name"]), "Status": "0", "Description":  book_details["summary"], "ListGenres": create_genres(book_details["genre"]), "ListChapters": ListChapters}
+book_post_request = post_request(
+    f'https://leech.audiotruyencv.org/api/leech/insert-book', json=Book)
 
 if book_post_request != False and book_post_request:
-   next_chapter_link = get_next_chapter_link(book_post_request[-1]["Url"])
-
-   if next_chapter_link != None:
-      list_chapter_ = get_chapter_details(book_post_request[-1]["Bookid"], next_chapter_link, book_post_request[-1]["Seq"] + 1, 100)
-      while len(list_chapter_) > 0:
-            chapter_put_request = put_request(f'https://leech.audiotruyencv.org/api/leech/insert-chapter-by-bookid/{book_post_request[-1]["Bookid"]}',json=list_chapter_)
-            list_chapter_ = []
-            if chapter_put_request != False and chapter_put_request:
-               next_chapter_link = get_next_chapter_link(chapter_put_request["Url"])
-               if next_chapter_link != None:
-                  list_chapter_ = get_chapter_details(book_post_request[-1]["Bookid"], next_chapter_link, chapter_put_request["Seq"] + 1, 100)
+    process_chapters(book_post_request[-1]["Bookid"],
+                     book_post_request[-1]["Seq"], book_post_request[-1]["Url"])
