@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-
+import asyncio
 
 def get_request(url, params=None, jwt=None):
     headers = {}
@@ -148,7 +148,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
     return list_chapter
 
 
-def create_authors(name):
+def create_authors(name, Authors):
     for author in Authors:
         if author["Name"] == name:
             return author["Id"]
@@ -159,7 +159,7 @@ def create_authors(name):
     return put_response["Id"]
 
 
-def create_genres(name):
+def create_genres(name, Genres):
     for genre in Genres:
         if genre["Name"] == name:
             return [genre]
@@ -182,19 +182,42 @@ def process_chapters(Bookid, Seq, initial_link):
                     list_chapter_ = get_chapter_details(
                         Bookid, next_chapter_link, chapter_put_request["Seq"] + 1, 100)
 
+def process_book(book_link):
+    Genres = get_request(f'https://leech.audiotruyencv.org/api/genres')
+    Authors = get_request(f'https://leech.audiotruyencv.org/api/authors')
+    book_details = get_book_details(book_link)
+    ListChapters = get_chapter_details("", book_details["first_chapter_link"], 1, 100)
+    Book = {
+        "Booknm": book_details["Booknm"],
+        "AuthorsId": create_authors(book_details["author_name"], Authors),
+        "Status": "0",
+        "Description": book_details["summary"],
+        "ListGenres": create_genres(book_details["genre"], Genres),
+        "ListChapters": ListChapters
+    }
+    book_post_request = post_request('https://leech.audiotruyencv.org/api/leech/insert-book', json=Book)
+    
+    if book_post_request and book_post_request != False:
+        last_item = book_post_request[-1]
+        process_chapters(last_item["Bookid"], last_item["Seq"], last_item["Url"])
 
-Genres = get_request(f'https://leech.audiotruyencv.org/api/genres')
-Authors = get_request(f'https://leech.audiotruyencv.org/api/authors')
-# Gọi hàm và truyền đường dẫn sách cần kiểm tra
-book_link = "https://truyenconvert.net/truyen/nguyen-lai-ta-la-tu-tien-dai-lao-104856"
-book_details = get_book_details(book_link)
-ListChapters = get_chapter_details(
-    "", book_details["first_chapter_link"], 1, 100)
-Book = {"Booknm": book_details["Booknm"], "AuthorsId": create_authors(
-    book_details["author_name"]), "Status": "0", "Description":  book_details["summary"], "ListGenres": create_genres(book_details["genre"]), "ListChapters": ListChapters}
-book_post_request = post_request(
-    f'https://leech.audiotruyencv.org/api/leech/insert-book', json=Book)
+async def async_process_book(book_link):
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, process_book, book_link)
 
-if book_post_request != False and book_post_request:
-    process_chapters(book_post_request[-1]["Bookid"],
-                     book_post_request[-1]["Seq"], book_post_request[-1]["Url"])
+async def main():
+    book_link_1 = "https://truyenconvert.net/truyen/toan-dan-linh-chu-ta-binh-chung-bien-di-32392"
+    book_link_2 = "https://truyenconvert.net/truyen/bat-dau-hang-via-he-ban-dai-luc-32928"
+
+    # Chạy các công việc bất đồng bộ
+    tasks = [
+        async_process_book(book_link_1),
+        async_process_book(book_link_2)
+        # Thêm các link sách khác nếu cần
+    ]
+    
+    # Chờ cho tất cả các công việc hoàn tất
+    await asyncio.gather(*tasks)
+
+# Chạy main() bất đồng bộ
+asyncio.run(main())
