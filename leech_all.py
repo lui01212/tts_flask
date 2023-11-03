@@ -139,7 +139,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                              == new_chapter["Content"] for item in list_chapter)
 
                 if not exists:
-                    print(chapter_link)
+                    #print(chapter_link)
                     list_chapter.append(new_chapter)
                     Seq += 1
                     success_count += 1
