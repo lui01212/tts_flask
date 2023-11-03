@@ -107,8 +107,15 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
             title_tag = soup.find('h1')
             chapter_title = title_tag.find('a').text
 
-            content_tag = soup.find(id="content")
+            # Tìm và loại bỏ các phần tử có id là 'setting-box' hoặc 'list-drop' và class 'comments' hoặc 'chapter-notification'
+            elements_to_remove = soup.find_all(lambda tag: (tag.has_attr('id') and (tag['id'] == 'setting-box' or tag['id'] == 'list-drop')) or (tag.has_attr('class') and ('chapter-header' in tag['class'] or 'comments' in tag['class'] or 'chapter-notification' in tag['class'])))
 
+            # Loại bỏ các phần tử tìm thấy
+            for element in elements_to_remove:
+                element.extract()  # hoặc element.decompose()
+
+            content_tag = soup.find(id="reading")
+            
             if content_tag:
                 for tag in content_tag.find_all(['a', 'div']):
                     if tag.name == 'a' or tag.name == 'div':
@@ -139,7 +146,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                              == new_chapter["Content"] for item in list_chapter)
 
                 if not exists:
-                    print(chapter_link)
+                    #print(chapter_link)
                     list_chapter.append(new_chapter)
                     Seq += 1
                     success_count += 1
@@ -157,7 +164,6 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                 chapter_link = next_chapter_link
 
     return list_chapter
-
 
 def create_authors(name, Authors):
     for author in Authors:
