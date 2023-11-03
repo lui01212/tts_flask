@@ -119,8 +119,16 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
             if content_tag:
                 for tag in content_tag.find_all(['a', 'div']):
                     if tag.name == 'a' or tag.name == 'div':
-                        if 'content' not in tag.get('class', []) and 'c-c' not in tag.get('class', []):
+                        # Check if it's a 'div' tag and its class doesn't contain certain values
+                        if tag.name == 'div' and 'content' not in tag.get('class', []) and 'c-c' not in tag.get('class', []):
+                            # Check if it's a 'div' with id 'content'
+                            if 'content' in tag.get('id', []):
+                                continue  # Skip this 'div' as it has id 'content'
                             tag.extract()
+                        # Check if it's an 'a' tag and its class doesn't contain certain values
+                        elif tag.name == 'a' and 'content' not in tag.get('class', []) and 'c-c' not in tag.get('class', []):
+                            tag.extract()
+
 
             full_text = "\n\n\n".join(content_tag.stripped_strings)
 
