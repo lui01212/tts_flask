@@ -106,7 +106,9 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
 
             title_tag = soup.find('h1')
             chapter_title = title_tag.find('a').text
-
+            next_chapter_tag = soup.find(id="nextchap")
+            next_chapter_link = next_chapter_tag.get(
+                    'href') if next_chapter_tag else None
             # Tìm và loại bỏ các phần tử có id là 'setting-box' hoặc 'list-drop' và class 'comments' hoặc 'chapter-notification'
             elements_to_remove = soup.find_all(lambda tag: (tag.has_attr('id') and (tag['id'] == 'setting-box' or tag['id'] == 'list-drop')) or (tag.has_attr('class') and ('chapter-header' in tag['class'] or 'comments' in tag['class'] or 'chapter-notification' in tag['class'])))
 
@@ -162,10 +164,7 @@ def get_chapter_details(Bookid, chapter_link, Seq, success_count_max):
                     if success_count >= success_count_max:
                         return list_chapter
 
-                next_chapter_tag = soup.find(id="nextchap")
-                next_chapter_link = next_chapter_tag.get(
-                    'href') if next_chapter_tag else None
-
+                #print(next_chapter_link)
                 if not next_chapter_link:
                     return list_chapter
 
