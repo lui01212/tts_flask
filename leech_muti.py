@@ -237,7 +237,6 @@ async def main():
                 'https://truyenconvert.net/truyen/thon-phe-co-de-32427',
                 'https://truyenconvert.net/truyen/vu-than-thien-ha-101271',
                 'https://truyenconvert.net/truyen/viet-nam-ly-tran-tinh-han-22497',
-                'https://truyenconvert.net/truyen/nien-dai-van-nam-phu-cuc-pham-vo-truoc-trong-sinh-35024',
                 'https://truyenconvert.net/truyen/luan-hoi-nhac-vien-29658',
                 'https://truyenconvert.net/truyen/tu-tien-tu-to-tien-hien-linh-bat-dau-34415',
                 'https://truyenconvert.net/truyen/bi-doat-tat-thay-sau-nang-phong-than-tro-ve-32908',
