@@ -428,8 +428,11 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             status_add_guide = add_guide(chapter_content, chapter["Id"])
 
             if status_add_guide == "success":
+                if chapter_data["Status"] == '3':
+                    status_upload_text_on_folder_id = chapter["Textfileid"]
+                else : 
+                    status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter_content)
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
-                status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter_content)
             else:
                 return status_add_guide
             if status_upload_audio_on_folder_id is not None and status_upload_text_on_folder_id is not None:
@@ -459,7 +462,6 @@ def create_audio_all_chapter_by_book_id(id):
     text_folder_id = ""
     book = get_request(f'https://server.audiotruyencv.org/api/book/{id}')
     if book is not None:
-        
         if book["Folderid"] is None:
             folder_id = create_folder_id(book["Booknm"])
             if folder_id is not None:
@@ -477,8 +479,20 @@ def create_audio_all_chapter_by_book_id(id):
                 log_server("không tạo được folder_id", "error")
                 return False
         else:
+            if book["AudioFolderId"] is not None:
+                audio_folder_id = create_child_folder_id("audio", book["Folderid"])
+                if audio_folder_id is not None:
+                    post_response = put_request('https://server.audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": book["Folderid"], "Textfolderid": book["TextFolderId"], "Audiofolderid": audio_folder_id})
+                    if post_response is None:
+                        log_server("Lỗi khi update Audiofolderid lên Book", "error")
+                        return False
+                else:
+                    log_server("Lỗi khi tạo Audiofolderid", "error")
+                    return False     
+            else: 
+                audio_folder_id = book["AudioFolderId"]
+
             folder_id = book["Folderid"]
-            audio_folder_id = book["AudioFolderId"]
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
@@ -531,7 +545,6 @@ def create_audio_chapter_book(bookid, chapterid):
     book = get_request(f'https://server.audiotruyencv.org/api/book/{bookid}')
 
     if book is not None:
-        
         if book["Folderid"] is None:
             folder_id = create_folder_id(book["Booknm"])
             if folder_id is not None:
@@ -549,8 +562,19 @@ def create_audio_chapter_book(bookid, chapterid):
                 log_server("không tạo được folder_id", "error")
                 return False
         else:
+            if book["AudioFolderId"] is not None:
+                audio_folder_id = create_child_folder_id("audio", book["Folderid"])
+                if audio_folder_id is not None:
+                    post_response = put_request('https://server.audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": book["Folderid"], "Textfolderid": book["TextFolderId"], "Audiofolderid": audio_folder_id})
+                    if post_response is None:
+                        log_server("Lỗi khi update Audiofolderid lên Book", "error")
+                        return False
+                else:
+                    log_server("Lỗi khi tạo Audiofolderid", "error")
+                    return False     
+            else: 
+                audio_folder_id = book["AudioFolderId"]
             folder_id = book["Folderid"]
-            audio_folder_id = book["AudioFolderId"]
             text_folder_id = book["TextFolderId"]
             
         if folder_id is not None:
