@@ -186,19 +186,20 @@ def upload_file(chapter, text_folder_id):
         
 def run_all_book():
     books = [
-                # '00a7b9b4-629b-4926-b69f-b988f55dead7',
-                # '01216a29-f6b1-4d3f-8e7f-7146d4f2fdce',
-                # '0229e7f0-4041-43e9-b15a-d0ebf09b95df',
-                # '0346d874-3852-40b8-952b-3de3274fac51',
-                # '0352de1c-1e10-45c4-92da-5468423d73e5',
-                # '03b3261a-3c5d-4bbf-b92c-5904e462394b',
-                # '042d7081-2770-4765-b4df-f5bd67cc77de',
-                # '04650a19-bb19-4215-a9e7-86cb748b76ff',
-                # '047077bc-1ba0-4322-b89f-2717b611d0d1',
-                # '04a33561-2f98-4744-a347-7803fbf54e9c',
-                # '04acf86c-5b69-4e5d-8e80-6171caeb8311',
-                # '04b97664-c9de-4762-b34e-8828a5067c74',
-                # '05181d12-94ba-4b1d-843b-048156b6856a',
+                '00a7b9b4-629b-4926-b69f-b988f55dead7',
+                '01216a29-f6b1-4d3f-8e7f-7146d4f2fdce',
+                '0229e7f0-4041-43e9-b15a-d0ebf09b95df',
+                '0346d874-3852-40b8-952b-3de3274fac51',
+                '0352de1c-1e10-45c4-92da-5468423d73e5',
+                '03b3261a-3c5d-4bbf-b92c-5904e462394b',
+                '042d7081-2770-4765-b4df-f5bd67cc77de',
+                '04650a19-bb19-4215-a9e7-86cb748b76ff',
+                '047077bc-1ba0-4322-b89f-2717b611d0d1',
+                '04a33561-2f98-4744-a347-7803fbf54e9c',
+                '04acf86c-5b69-4e5d-8e80-6171caeb8311',
+                '04b97664-c9de-4762-b34e-8828a5067c74',
+                '05181d12-94ba-4b1d-843b-048156b6856a'
+                
                 # '055d30ef-dda0-49e2-9db1-da94c782e831',
                 # '05900850-ad75-4e62-82ae-d3797f5b748a',
                 # '05a482ab-e5a9-43cc-aadd-6a9c205fcb18',
@@ -215,8 +216,7 @@ def run_all_book():
                 # '0a96cc71-4a31-46fe-baf4-2b1db3351380',
                 # '0ad21971-2e0b-4259-9573-8455859b006b',
                 # '0b7685e6-19d1-4d46-a369-05584944f005',
-                # '0d404876-55e6-4d2d-8c37-cf993ad6bc88'
-
+                # '0d404876-55e6-4d2d-8c37-cf993ad6bc88',
                 # '0d6a279c-3241-4d7d-bc78-10f7e295de96',
                 # '0d909466-2f3c-4802-a629-852195875c45',
                 # '0ef3f28d-1da8-4525-92a2-b585b9f50854',
@@ -273,8 +273,7 @@ def run_all_book():
                 # '280a7bac-5dfd-4d19-b21e-5bc1ec2d0064',
                 # '28210745-e873-48f7-840c-3b64365ea722',
                 # '2832903d-ef7f-480c-94b0-af10678480bc',
-                # '2852c32a-7f99-49a6-8816-b58d9cfeb7c0'
-
+                # '2852c32a-7f99-49a6-8816-b58d9cfeb7c0',
                 # '2967ac7d-4012-4e04-ad6a-15494cb3fa1a',
                 # '29770760-03f4-4654-8f53-a469a467b92b',
                 # '2a7db873-2637-4dfb-b2c8-5f6e0930e225',
@@ -359,8 +358,7 @@ def run_all_book():
                 # '575d6b23-b10b-472c-a3af-c3c62926654d',
                 # '57761988-866b-4ae6-81d8-70abafbb29b5',
                 # '58bc9682-a465-4d0c-adf5-1dfc915c7c90',
-                # '59ba8d74-a5fa-4fed-898d-32af677598b9'
-
+                # '59ba8d74-a5fa-4fed-898d-32af677598b9',
                 # '5a888b2c-d468-43a9-bd7b-4d5334f99465',
                 # '5b1e8f35-3eee-437e-9a37-dd814ed56044',
                 # '5b614130-1a74-413c-a823-d7aec8daf517',
@@ -420,8 +418,7 @@ def run_all_book():
                 # '7e927303-bf4d-4fd0-8df4-b14a2c1b7cec',
                 # '7f16ccb5-317f-4428-a919-a412694fa4dc',
                 # '7f6ace45-b38f-47a5-b40b-7cc488880175',
-                # '7fab0c67-363b-4a10-9938-264d44b65171'
-
+                # '7fab0c67-363b-4a10-9938-264d44b65171',
                 # '8053b1e0-ca98-481d-a7d9-a34c79fe1556',
                 # '80b4e63a-a1a3-4c1b-8af0-f1c86851d78f',
                 # '82074084-3f84-4ca8-86eb-a282854cd7a8',
@@ -500,8 +497,7 @@ def run_all_book():
                 # 'abc35673-ab6e-46e6-a7d7-416ac1c20809',
                 # 'ac24ffa3-fb04-416e-a1fa-254a756c9d5d',
                 # 'ad983104-b8ef-44fe-89f5-4d1f08db8457',
-                # 'ae064d7b-6ed6-4245-9b79-cc34f1fc2db8'
-
+                # 'ae064d7b-6ed6-4245-9b79-cc34f1fc2db8',
                 # 'ae536878-537c-44e2-843c-cf59cd4876b1',
                 # 'b14524f5-20ec-4fb0-87be-f0ca2708c5e5',
                 # 'b16e13c2-999c-44cf-9d45-e6c249751471',
@@ -530,8 +526,7 @@ def run_all_book():
                 # 'be74e855-25eb-4491-883f-8f1608883a4f',
                 # 'be76ca36-9eb0-4fc9-9200-0a3e92e5fffe',
                 # 'bed2d2bf-b014-48ac-92c1-a475cb95333e',
-                # 'bf5a9de7-1662-46f3-b5b9-d117b501f734'
-
+                # 'bf5a9de7-1662-46f3-b5b9-d117b501f734',
                 # 'bf7098ff-0881-4919-b1bd-615ccd4b5572',
                 # 'bf826c60-819d-4619-9385-1c8c2523b885',
                 # 'bfa0b1b5-43fd-4722-b0cf-f8b78a45b224',
@@ -555,8 +550,7 @@ def run_all_book():
                 # 'ca0c27c4-2846-4768-8196-cbf9a65d314d',
                 # 'ca14ea62-251f-40b1-8457-fc6a6964b6b4',
                 # 'cbcd3186-0834-4ad7-8ad1-5fc99060ab57',
-                # 'cdd6d5cd-5b44-41a5-ab5b-a9bf4a4b0573'
-
+                # 'cdd6d5cd-5b44-41a5-ab5b-a9bf4a4b0573',
                 # 'cef09e7e-d376-4db2-ae68-d4786c9694a0',
                 # 'cf9d01d0-1163-47b0-acd7-65bc9244d23f',
                 # 'd0b3bf0f-8ea2-4b24-81e2-605bc1a9602b',
@@ -582,8 +576,7 @@ def run_all_book():
                 # 'dac96e83-4d3f-40cb-9d94-53c00bd2b7f3',
                 # 'db43a30b-9bb5-4290-b602-24f941b08a63',
                 # 'db5763e4-c716-4a02-b39d-8035bd200434',
-                # 'dbae66a3-aa98-4816-91e9-144bd8ab0755'
-
+                # 'dbae66a3-aa98-4816-91e9-144bd8ab0755',
                 # 'dc6e2a4c-cfa1-4d11-9ea4-b00f29b8622b',
                 # 'ddf6b167-b025-4c56-8aeb-1b6637f811ad',
                 # 'de0a4543-35cd-4158-b13d-0ef3201eb125',
@@ -606,8 +599,7 @@ def run_all_book():
                 # 'e72954fc-3295-43c3-8a51-43a6bc3d5e3d',
                 # 'e7528d04-4eda-4353-801c-8514e8e5f85b',
                 # 'e76ebe71-3995-453a-bab0-4526ab0f0df4',
-                # 'e7cb7630-93ef-4ba7-9f34-a8e281ec18a7'
-
+                # 'e7cb7630-93ef-4ba7-9f34-a8e281ec18a7',
                 # 'e7fa09f7-85bb-4e3e-ae34-fa01a5aec7d7',
                 # 'e81854e2-d868-4a90-8d42-17e6568c2798',
                 # 'e8698a52-d08b-47ee-8d79-6220e5b5eb35',
@@ -625,8 +617,7 @@ def run_all_book():
                 # 'f4143acb-5d19-4c62-aa98-742e58ae1bb8',
                 # 'f5654cb1-7943-44fd-8168-8f8835e14f2d',
                 # 'f571e97c-b0be-48a8-9d82-a84f4b127e43',
-                # 'f583018f-e90c-43a4-a7ee-939a4a7e90fb'
-
+                # 'f583018f-e90c-43a4-a7ee-939a4a7e90fb',
                 # 'f635dcc9-c528-43b8-896f-23db1cf82724',
                 # 'f7e63c72-1ea7-452d-af1d-e27bae1ed8dd',
                 # 'f83bba6a-6417-4ec7-911d-566fe082087e',
@@ -636,17 +627,16 @@ def run_all_book():
                 # 'f8a5df3d-666e-4989-bfe0-9ee7996d86d1',
                 # 'f96a0638-d3f7-4300-92f8-0a21405a0399',
                 # 'f9ad4960-cb60-4e81-96c4-f5a8d1124da1',
-                # 'f9b6a696-3178-45ac-addb-efffe6560b3b'
-
-                'fa85f696-b030-495f-b576-5e840053e3ab',
-                'fb10863f-a883-46b6-b114-bb772ded2e8f',
-                'fb8ffe70-ac87-45d1-a8e6-2896ea2b4eb8',
-                'fc94e6b0-4f34-4fa2-9357-e3b8abea88f0',
-                'fcb313cb-eec3-489d-acc2-e44056b92a8e',
-                'fe39430e-3f8e-4dae-9c74-8c4965bddb2d',
-                'fe8bdd35-3f10-4aeb-a447-9d670ca8f20a',
-                'fea0faf2-b73d-4654-9fe9-da91d96b6522',
-                'ffd63f69-2682-4237-b0d9-ad6bc8ddea45'
+                # 'f9b6a696-3178-45ac-addb-efffe6560b3b',
+                # 'fa85f696-b030-495f-b576-5e840053e3ab',
+                # 'fb10863f-a883-46b6-b114-bb772ded2e8f',
+                # 'fb8ffe70-ac87-45d1-a8e6-2896ea2b4eb8',
+                # 'fc94e6b0-4f34-4fa2-9357-e3b8abea88f0',
+                # 'fcb313cb-eec3-489d-acc2-e44056b92a8e',
+                # 'fe39430e-3f8e-4dae-9c74-8c4965bddb2d',
+                # 'fe8bdd35-3f10-4aeb-a447-9d670ca8f20a',
+                # 'fea0faf2-b73d-4654-9fe9-da91d96b6522',
+                # 'ffd63f69-2682-4237-b0d9-ad6bc8ddea45'
                 ]
     for book in books:
         create_up_chapter_by_book_id(book)
