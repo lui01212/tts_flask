@@ -633,20 +633,20 @@ def run_all_book():
                 # 'f8506019-2d48-4091-992d-f669492d7392',
                 # 'f874a811-9f71-485e-b753-568777eb9ea2'
 
-                'f8a5df3d-666e-4989-bfe0-9ee7996d86d1',
-                'f96a0638-d3f7-4300-92f8-0a21405a0399',
-                'f9ad4960-cb60-4e81-96c4-f5a8d1124da1',
-                'f9b6a696-3178-45ac-addb-efffe6560b3b',
-                'fa85f696-b030-495f-b576-5e840053e3ab',
-                'fb10863f-a883-46b6-b114-bb772ded2e8f',
-                'fb8ffe70-ac87-45d1-a8e6-2896ea2b4eb8',
-                'fc94e6b0-4f34-4fa2-9357-e3b8abea88f0'
-                
-                # 'fcb313cb-eec3-489d-acc2-e44056b92a8e',
-                # 'fe39430e-3f8e-4dae-9c74-8c4965bddb2d',
-                # 'fe8bdd35-3f10-4aeb-a447-9d670ca8f20a',
-                # 'fea0faf2-b73d-4654-9fe9-da91d96b6522',
-                # 'ffd63f69-2682-4237-b0d9-ad6bc8ddea45'
+                # 'f8a5df3d-666e-4989-bfe0-9ee7996d86d1',
+                # 'f96a0638-d3f7-4300-92f8-0a21405a0399',
+                # 'f9ad4960-cb60-4e81-96c4-f5a8d1124da1',
+                # 'f9b6a696-3178-45ac-addb-efffe6560b3b',
+                # 'fa85f696-b030-495f-b576-5e840053e3ab',
+                # 'fb10863f-a883-46b6-b114-bb772ded2e8f',
+                # 'fb8ffe70-ac87-45d1-a8e6-2896ea2b4eb8',
+                # 'fc94e6b0-4f34-4fa2-9357-e3b8abea88f0'
+
+                'fcb313cb-eec3-489d-acc2-e44056b92a8e',
+                'fe39430e-3f8e-4dae-9c74-8c4965bddb2d',
+                'fe8bdd35-3f10-4aeb-a447-9d670ca8f20a',
+                'fea0faf2-b73d-4654-9fe9-da91d96b6522',
+                'ffd63f69-2682-4237-b0d9-ad6bc8ddea45'
                 ]
 
     for book in books:
