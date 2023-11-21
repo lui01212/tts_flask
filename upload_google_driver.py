@@ -248,17 +248,17 @@ def run_all_book():
                 # "d0b3bf0f-8ea2-4b24-81e2-605bc1a9602b",
                 # "a7f56c74-c463-4458-a5c7-22edec394ec6"
 
-                "9f2a605b-b1e5-4702-92c4-8afa91025a1e",
-                "3995c563-4305-497b-ba8c-ee84342ef4de",
-                "a2756db1-4b53-482f-b6c0-5259ce4e88e7",
-                "e0b98a64-81dd-4165-bcd5-0650bfa0c7a0",
-                "d1963d7a-d16b-4cb8-9911-01c42bc38c84"
+                # "9f2a605b-b1e5-4702-92c4-8afa91025a1e",
+                # "3995c563-4305-497b-ba8c-ee84342ef4de",
+                # "a2756db1-4b53-482f-b6c0-5259ce4e88e7",
+                # "e0b98a64-81dd-4165-bcd5-0650bfa0c7a0",
+                # "d1963d7a-d16b-4cb8-9911-01c42bc38c84"
 
-                # "9e07a09f-8bc1-4933-95ac-e90ee6a4f4dd",
-                # "e53365b6-37bf-4dc1-af81-0267f263d166",
-                # "f83f5e22-f34e-4ded-b7dd-a34069d0db14",
-                # "d6bb78b0-4a03-4076-b0f5-2e7c8dedac11",
-                # "cdd6d5cd-5b44-41a5-ab5b-a9bf4a4b0573",
+                "9e07a09f-8bc1-4933-95ac-e90ee6a4f4dd",
+                "e53365b6-37bf-4dc1-af81-0267f263d166",
+                "f83f5e22-f34e-4ded-b7dd-a34069d0db14",
+                "d6bb78b0-4a03-4076-b0f5-2e7c8dedac11",
+                "cdd6d5cd-5b44-41a5-ab5b-a9bf4a4b0573"
 
                 # "9f16a682-be49-48c4-8315-c227d133fff2",
                 # "54225702-6624-460e-9735-6259275cf18e",
