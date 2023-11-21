@@ -203,18 +203,18 @@ def run_all_book():
                 # "9ffae82b-76cd-421d-8856-2fb39b459596",
                 # "7c3eb695-a9a4-413b-ba66-1b55a7cd8ce9"
 
-                "dbae66a3-aa98-4816-91e9-144bd8ab0755",
-                "d39a7d54-fa1e-4732-91f8-a7cb552fb5b2",
-                "89857644-69f9-4f71-a35c-84cac539fae0",
-                "9ede1965-8a84-4ee9-b989-291d70f5cc49",
-                "0a96cc71-4a31-46fe-baf4-2b1db3351380",
-                "f7e63c72-1ea7-452d-af1d-e27bae1ed8dd",
-                "d0f82b0c-b389-4215-bff0-8327eb2676cf"
+                # "dbae66a3-aa98-4816-91e9-144bd8ab0755",
+                # "d39a7d54-fa1e-4732-91f8-a7cb552fb5b2",
+                # "89857644-69f9-4f71-a35c-84cac539fae0",
+                # "9ede1965-8a84-4ee9-b989-291d70f5cc49",
+                # "0a96cc71-4a31-46fe-baf4-2b1db3351380",
+                # "f7e63c72-1ea7-452d-af1d-e27bae1ed8dd",
+                # "d0f82b0c-b389-4215-bff0-8327eb2676cf"
 
-                # "d82a3b01-17ab-4b27-8076-a83a17dbbb74",
-                # "85ffc8df-6125-4d16-9339-73b70b09f9c5",
-                # "0a6de8fa-7b2c-4c48-a359-25d22ca3750b",
-                # "937ad2b8-018f-4455-a1ce-2cd5bfc1f119",
+                "d82a3b01-17ab-4b27-8076-a83a17dbbb74",
+                "85ffc8df-6125-4d16-9339-73b70b09f9c5",
+                "0a6de8fa-7b2c-4c48-a359-25d22ca3750b",
+                "937ad2b8-018f-4455-a1ce-2cd5bfc1f119"
 
                 # "d2197384-d71e-47ed-8108-64e82b54ab6c",
                 # "20c613d4-40ed-4596-a24c-a5ab0730b519",
