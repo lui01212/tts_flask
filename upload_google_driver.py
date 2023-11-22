@@ -190,9 +190,10 @@ def run_all_book():
 
                 # "a8e1bb82-6822-4649-b42f-85e374ea521e"
 
-                "9ffae82b-76cd-421d-8856-2fb39b459596"
+                # "9ffae82b-76cd-421d-8856-2fb39b459596"
 
-                # "7c3eb695-a9a4-413b-ba66-1b55a7cd8ce9",
+                "7c3eb695-a9a4-413b-ba66-1b55a7cd8ce9"
+
                 # "9fda5a86-1adb-482f-88ad-19c321c19ecf",
                 # "74183b16-0426-4c4a-a754-e2758dd201c7"
                 ]
