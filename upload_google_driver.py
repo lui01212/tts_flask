@@ -186,9 +186,10 @@ def upload_file(chapter, text_folder_id):
         
 def run_all_book():
     books = [
-                "9df70521-f9d8-4110-813d-2ec59819b7d3"
-                
-                # "a8e1bb82-6822-4649-b42f-85e374ea521e",
+                # "9df70521-f9d8-4110-813d-2ec59819b7d3"
+
+                "a8e1bb82-6822-4649-b42f-85e374ea521e"
+
                 # "9ffae82b-76cd-421d-8856-2fb39b459596",
                 # "7c3eb695-a9a4-413b-ba66-1b55a7cd8ce9",
                 # "9fda5a86-1adb-482f-88ad-19c321c19ecf",
