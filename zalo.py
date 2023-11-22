@@ -447,10 +447,10 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
 
             return "success"
         else:
-            post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
+            #post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
             return "lỗi lấy nội dung chương None"
     except Exception as e:
-        post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
+        #post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "2"})
         return str(e)
 
 def replace_source(text):
