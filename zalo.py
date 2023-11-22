@@ -428,20 +428,20 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
             status_add_guide = add_guide(chapter_content, chapter["Id"])
 
             if status_add_guide == "success":
-                if chapter["Textfileid"] is not None:
-                    status_upload_text_on_folder_id = chapter["Textfileid"]
+                if chapter["TextFileid"] is not None:
+                    status_upload_text_on_folder_id = chapter["TextFileid"]
                 else : 
                     status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter_content)
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
             else:
                 return status_add_guide
             if status_upload_audio_on_folder_id is not None and status_upload_text_on_folder_id is not None:
-                post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "1", "Audiofileid": status_upload_audio_on_folder_id, "Textfileid": status_upload_text_on_folder_id})
+                post_response = put_request('https://server.audiotruyencv.org/api/chapter/update-info', json={"Id": chapter["Id"], "Status": "1", "AudioFileid": status_upload_audio_on_folder_id, "TextFileid": status_upload_text_on_folder_id})
                 print("end chapter")
                 if post_response is None:
-                    return "lỗi khi cập nhật Audiofileid và Textfileid ở Chapter"
+                    return "lỗi khi cập nhật AudioFileid và TextFileid ở Chapter"
             else:
-                return "lỗi khi tạo Audiofileid và Textfileid"
+                return "lỗi khi tạo AudioFileid và TextFileid"
 
             time.sleep(5)
 
