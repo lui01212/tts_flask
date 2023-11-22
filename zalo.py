@@ -479,7 +479,7 @@ def create_audio_all_chapter_by_book_id(id):
                 log_server("không tạo được folder_id", "error")
                 return False
         else:
-            if book["AudioFolderId"] is not None:
+            if book["AudioFolderId"] is None:
                 audio_folder_id = create_child_folder_id("audio", book["Folderid"])
                 if audio_folder_id is not None:
                     post_response = put_request('https://server.audiotruyencv.org/api/book/update-folder-id', json={"Id": book["Id"], "Folderid": book["Folderid"], "Textfolderid": book["TextFolderId"], "Audiofolderid": audio_folder_id})
