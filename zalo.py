@@ -431,7 +431,7 @@ def create_file_audio(chapter, audio_folder_id, text_folder_id):
                 if chapter["TextFileid"] is not None:
                     status_upload_text_on_folder_id = chapter["TextFileid"]
                 else : 
-                    status_upload_text_on_folder_id = upload_text_on_folder_id(chapter["Id"], text_folder_id, chapter_content)
+                    status_upload_text_on_folder_id = upload_text_on_folder_id(chapter['Name'] + "-" + chapter["Id"], text_folder_id, chapter_content)
                 status_upload_audio_on_folder_id = upload_audio_on_folder_id(chapter["Id"], audio_folder_id)
             else:
                 return status_add_guide
