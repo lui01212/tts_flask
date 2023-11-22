@@ -194,9 +194,9 @@ def run_all_book():
 
                 # "7c3eb695-a9a4-413b-ba66-1b55a7cd8ce9"
 
-                "9fda5a86-1adb-482f-88ad-19c321c19ecf"
+                # "9fda5a86-1adb-482f-88ad-19c321c19ecf"
 
-                # "74183b16-0426-4c4a-a754-e2758dd201c7"
+                "74183b16-0426-4c4a-a754-e2758dd201c7"
                 ]
     for book in books:
         create_up_chapter_by_book_id(book)
