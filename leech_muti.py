@@ -432,7 +432,7 @@ def get_all_link_books(page_link, max_page=10):
     return list_books
 
 def main():
-    for x in range(101, 120):
+    for x in range(1, 10):
         list_books =get_all_link_books(f"https://truyenconvert.net/the-loai/truyen-duoc-xem-nhieu-nhat?trang={x}", 1)
         for link in list_books:
             process_book(link)
